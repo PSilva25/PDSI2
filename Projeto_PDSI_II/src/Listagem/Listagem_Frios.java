@@ -1,23 +1,31 @@
 package Listagem;
 
+
+import Backgrounds.BG_Listagem_Bebidas;
+import Alterações.Alteracao_Alimentos_Frios;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
+import Cadastros.Cadastro_de_Bebidas;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import Cadastros.Cadastro_Alimentos_Frios;
 
 
 public class Listagem_Frios extends JFrame implements ActionListener {
     
     
     
-   
+   int Id=0;
     JTable tableLista;
     DefaultTableModel modelo;
     JScrollPane barra;
@@ -58,6 +66,7 @@ public class Listagem_Frios extends JFrame implements ActionListener {
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
+        barra.add(new BG_Listagem_Bebidas());
         add(barra);   
         
         
@@ -69,8 +78,18 @@ public class Listagem_Frios extends JFrame implements ActionListener {
         add(Busca_tabela);
         add(Busca);
         
-  
-      
+        
+        Busca_tabela.addKeyListener(new java.awt.event.KeyAdapter() {
+            
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                
+                textBuscarKeyTyped(evt);
+                
+            }
+        }
+        );
+        
+        
         Voltar.setBorder(new Borda_Redonda(7));
         Voltar.setBounds(80, 440, 100, 40);
         Voltar.addActionListener(this);
@@ -139,7 +158,7 @@ public class Listagem_Frios extends JFrame implements ActionListener {
 
         con.executaSQL("select * from cad_alimentos");
    
-        /*try {
+        try {
 
             con.rs.first();
                    
@@ -167,7 +186,7 @@ public class Listagem_Frios extends JFrame implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
-        }*/
+        }
         
         
     }
@@ -175,10 +194,97 @@ public class Listagem_Frios extends JFrame implements ActionListener {
     
     public void actionPerformed(ActionEvent e) {  
         
-        
+        if (e.getSource() == Alterar){           
+            
+            int linhaSelecionada = -1;
+            
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+                //AtualizarContato ic = new AtualizarContato(modelo, idContato, linhaSelecionada);
+                //ic.setVisible(true);
+                
+                Id = Integer.parseInt(ID);
+               dispose();
+                try {
+                
+                    new Alteracao_Alimentos_Frios(Id);
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            } else  if (e.getSource() == Adicionar) {
+                
+               
+                
+                new Cadastro_Alimentos_Frios();
+                
+            
+            }else if (e.getSource() == Apagar) {
+             
+            //deletando os dados da tabela ao pressionar o botao deletar
+            String sql = "delete from bebida where ID_alimento='" + Id + "'";
+
+            try {
+
+                PreparedStatement stmt = con.conn.prepareStatement(sql);
+
+
+                stmt.executeUpdate();
+
+                //mensagem de alerta informando que os dados foram deletados
+                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
+
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(null, e1);
+            }
+
+            
+            }
+            
+            else  if (e.getSource() == Voltar) {
+               
+                dispose();
+                
+            } else {
+                
+                JOptionPane.showMessageDialog(null, "É necessário selecionar uma linha.");
+            
+            }    
     }
     
-   
+    
+    private void textBuscarKeyTyped(java.awt.event.KeyEvent evt) {                                   
+        
+        Busca_tabela.addKeyListener(new KeyAdapter() {
+            
+            public void keyReleased(final KeyEvent e) {
+                
+                String cadena = (Busca_tabela.getText());
+                
+                Busca_tabela.setText(cadena);
+                
+                filtro();
+            }
+        });
+        
+        Filtro = new TableRowSorter(tableLista.getModel());
+        tableLista.setRowSorter(Filtro);
+
+    }
+    
+    
+    public void filtro() {
+        
+        Filtro.setRowFilter(RowFilter.regexFilter(Busca_tabela.getText(), 1));
+    
+    }
+    
+    
     public static void main(String [] args){
         
         new Listagem_Frios();
