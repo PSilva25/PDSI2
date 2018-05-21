@@ -1,6 +1,7 @@
 package Listagem;
 
 
+import Backgrounds.BG_Listagem_Bebidas;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
 import java.awt.*;
@@ -11,16 +12,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableRowSorter;
+import Alterações.Alteracao_Estoque_Bebidas;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import Cadastros.Cadastro_de_Bebidas;
+import java.sql.PreparedStatement;
 
 public class Listagem_Bebidas extends JFrame implements ActionListener {
     
     
-    
+    int Id=0;
    
-    JTable Tabela;
-    DefaultTableModel model;
-    JScrollPane BarraRolagem;
+    JTable tableLista;
+    DefaultTableModel modelo;
+    JScrollPane barra;
     
     JButton Adicionar = new JButton("Adicionar");
     JButton Alterar = new JButton("Alterar");
@@ -29,7 +35,8 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
     
     JTextField Busca_tabela = new JTextField();
     
-    
+    TableRowSorter Filtro;
+     
     DAO con = new DAO();
     
     
@@ -47,17 +54,18 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         tabela();
         
         
-        Tabela = new JTable();
-        Tabela.setBackground(Color.WHITE);
-        Tabela.setModel(model);
-        Tabela.setFillsViewportHeight(true);
+        tableLista = new JTable();
+        tableLista.setBackground(Color.WHITE);
+        tableLista.setModel(modelo);
+        tableLista.setFillsViewportHeight(true);
         
  
                
-        BarraRolagem = new JScrollPane(Tabela);
-        BarraRolagem.setBounds(80, 100, 920, 300);
-        BarraRolagem.setBorder(new LineBorder(Color.BLACK));
-        add(BarraRolagem);   
+        barra = new JScrollPane(tableLista);
+        barra.setBounds(80, 100, 920, 300);
+        barra.setBorder(new LineBorder(Color.BLACK));
+        barra.add(new BG_Listagem_Bebidas());
+        add(barra);   
         
         
         JLabel Busca = new JLabel("Filtro:");
@@ -67,6 +75,17 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         Busca.setFont(fonte);
         add(Busca_tabela);
         add(Busca);
+        
+        
+        Busca_tabela.addKeyListener(new java.awt.event.KeyAdapter() {
+            
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                
+                textBuscarKeyTyped(evt);
+                
+            }
+        }
+        );
         
         
         Voltar.setBorder(new Borda_Redonda(7));
@@ -99,7 +118,7 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         
              
 
-        setTitle("Tala Principal - Gerência");
+        setTitle("..:FastZooom:..");
         setSize(1100, 550);  
         getContentPane().setBackground(Color.decode("#82b3d1"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,15 +128,12 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
 
     }
     
-    
-    
-    
-    
+     
     public void tabela(){
         
         String[] colunas = {"ID", "Bebida", "Tipo", "Preco"};
 
-        model = (DefaultTableModel) (new DefaultTableModel() {
+        modelo = (DefaultTableModel) (new DefaultTableModel() {
 
             public boolean isCellEditable(int row, int coluna) {
                 return false;
@@ -129,12 +145,12 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
             
         });
         
-        model.setColumnIdentifiers(colunas);
-        model.setNumRows(0);
+        modelo.setColumnIdentifiers(colunas);
+        modelo.setNumRows(0);
         
         con.conexao();
 
-        con.executaSQL("select * from bebidas");
+        con.executaSQL("select * from bebida");
    
         try {
 
@@ -146,14 +162,14 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
 
                 for (int i = 0; i < 4; i++) {
                     
-                    dados[0] = String.valueOf(con.rs.getInt("ID_Bebida"));
-                    dados[1] = con.rs.getString("Bebida");
+                    dados[0] = String.valueOf(con.rs.getInt("ID_bebida"));
+                    dados[1] = con.rs.getString("Nome");
                     dados[2] = con.rs.getString("Tipo");
                     dados[3] = String.valueOf(con.rs.getString("Preco"));
 
                 }
                 
-                model.addRow(dados);
+                modelo.addRow(dados);
             
             }while (con.rs.next());
                         
@@ -166,18 +182,98 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         
     }
     
-   
-    
     
     public void actionPerformed(ActionEvent e) {
         
+        if (e.getSource() == Alterar){           
+            
+            int linhaSelecionada = -1;
+            
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+               
+                 Id = Integer.parseInt(ID);
+                
+                 dispose();
+                
+                try {
+                    new Alteracao_Estoque_Bebidas(Id);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Listagem_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            }else  if (e.getSource() == Adicionar) {
+                
+                new Cadastro_de_Bebidas();
+            
+            
+            }else if (e.getSource() == Apagar) {
+             
+            //deletando os dados da tabela ao pressionar o botao deletar
+            String sql = "delete from bebida where ID_bebida='" + Id + "'";
+
+            try {
+
+                PreparedStatement stmt = con.conn.prepareStatement(sql);
+
+
+                stmt.executeUpdate();
+
+                //mensagem de alerta informando que os dados foram deletados
+                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
+
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(null, e1);
+            }
+
+            
+
+            
+            } else  if (e.getSource() == Voltar) {
+               
+                dispose();
+           
+            
+            } else {
+                
+                JOptionPane.showMessageDialog(null, "É necessário selecionar uma linha.");
+            
+            }    
+        }
+       
+       
+     
+    private void textBuscarKeyTyped(java.awt.event.KeyEvent evt) {                                   
         
+        Busca_tabela.addKeyListener(new KeyAdapter() {
+            
+            public void keyReleased(final KeyEvent e) {
+                
+                String cadena = (Busca_tabela.getText());
+                
+                Busca_tabela.setText(cadena);
+                
+                filtro();
+            }
+        });
         
+        Filtro = new TableRowSorter(tableLista.getModel());
+        tableLista.setRowSorter(Filtro);
+
     }
     
     
+    public void filtro() {
+        
+        Filtro.setRowFilter(RowFilter.regexFilter(Busca_tabela.getText(), 1));
     
+    }
     
+      
     public static void main(String [] args){
         
         new Listagem_Bebidas();

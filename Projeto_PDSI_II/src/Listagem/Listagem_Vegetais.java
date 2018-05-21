@@ -1,15 +1,21 @@
 package Listagem;
 
 
+import Alterações.Alteracao_Alimentos_Vegetais;
+import Backgrounds.BG_Listagem_Bebidas;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
+import Cadastros.Cadastro_Alimentos_Vegetais;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -17,7 +23,7 @@ import javax.swing.table.TableRowSorter;
 public class Listagem_Vegetais extends JFrame implements ActionListener {
     
     
-    
+    int Id=0;
    
     JTable tableLista;
     DefaultTableModel modelo;
@@ -59,6 +65,7 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
+        barra.add(new BG_Listagem_Bebidas());
         add(barra);   
         
         
@@ -69,7 +76,17 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
         Busca.setFont(fonte);
         add(Busca_tabela);
         add(Busca);
-      
+        
+        
+        Busca_tabela.addKeyListener(new java.awt.event.KeyAdapter() {
+            
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                
+                textBuscarKeyTyped(evt);
+                
+            }
+        }
+        );
         
         
         Voltar.setBorder(new Borda_Redonda(7));
@@ -112,11 +129,6 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
 
     }
     
-    
-    
-    
-    
-    
     public void tabela(){
         
         String[] colunas = {"ID_vegetal", "Tipo", "Fornecedor", "Quantidade", "Quat. Porção", "Preço(KG)"};
@@ -140,20 +152,22 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
 
         con.executaSQL("select * from cad_vegetais");
    
-        /*try {
+        try {
 
             con.rs.first();
                    
             do{     
                 
-                String[] dados = new String[4];
+                String[] dados = new String[6];
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 6; i++) {
                     
-                    dados[0] = String.valueOf(con.rs.getInt("ID_Bebida"));
-                    dados[1] = con.rs.getString("Bebida");
-                    dados[2] = con.rs.getString("Tipo");
-                    dados[3] = String.valueOf(con.rs.getString("Preco"));
+                    dados[0] = String.valueOf(con.rs.getInt("ID_vegetal"));
+                    dados[1] = con.rs.getString("Tipo");
+                    dados[2] = con.rs.getString("Fornecedor");
+                    dados[3] = String.valueOf(con.rs.getString("Quantidade"));
+                    dados[4] = String.valueOf(con.rs.getString("Preco_kg"));
+                    dados[5] = String.valueOf(con.rs.getString("Quantidade_porcao"));
 
                 }
                 
@@ -165,7 +179,7 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
-        }*/
+        }
         
         
     }
@@ -174,10 +188,93 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         
+        if (e.getSource() == Alterar){           
+            
+            int linhaSelecionada = -1;
+            
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+              dispose();
+               Id = Integer.parseInt(ID);
+                System.out.println(Id);
+                try {
+                    new Alteracao_Alimentos_Vegetais(Id);
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(Listagem_Vegetais.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }if (e.getSource() == Adicionar) {
+                
+                new Cadastro_Alimentos_Vegetais();
+            
+            
+            }if (e.getSource() == Apagar) {
+             
+            //deletando os dados da tabela ao pressionar o botao deletar
+            String sql = "delete from cad_vegetais where ID_vegetal='" + Id + "'";
+
+            try {
+
+                PreparedStatement stmt = con.conn.prepareStatement(sql);
+
+
+                stmt.executeUpdate();
+
+                //mensagem de alerta informando que os dados foram deletados
+                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
+
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(null, e1);
+            }
+
+            
+
+            
+            } if (e.getSource() == Voltar) {
+               
+                dispose();
+           
+            
+            } else {
+                
+                JOptionPane.showMessageDialog(null, "É necessário selecionar uma linha.");
+            
+            }    
+                          
+            
+        }    
+    
+    private void textBuscarKeyTyped(java.awt.event.KeyEvent evt) {                                   
+        
+        Busca_tabela.addKeyListener(new KeyAdapter() {
+            
+            public void keyReleased(final KeyEvent e) {
+                
+                String cadena = (Busca_tabela.getText());
+                
+                Busca_tabela.setText(cadena);
+                
+                filtro();
+            }
+        });
+        
+        Filtro = new TableRowSorter(tableLista.getModel());
+        tableLista.setRowSorter(Filtro);
+
     }
     
     
+    public void filtro() {
+        
+        Filtro.setRowFilter(RowFilter.regexFilter(Busca_tabela.getText(), 1));
     
+    }
     
       
     public static void main(String [] args){
