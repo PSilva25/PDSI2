@@ -1,9 +1,10 @@
 package Listagem;
 
 
-import Backgrounds.BG_Listagem_Bebidas;
+import Backgrounds.BG_CadAlimentos_Frios;
 import Alterações.Alteracao_Alimentos_Frios;
 import Banco_de_Dados.DAO;
+import Remoção.Remocao_Alimentos_Frios;
 import Botoes.Borda_Redonda;
 import Cadastros.Cadastro_de_Bebidas;
 import java.awt.*;
@@ -66,7 +67,7 @@ public class Listagem_Frios extends JFrame implements ActionListener {
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
-        barra.add(new BG_Listagem_Bebidas());
+        barra.add(new BG_CadAlimentos_Frios());
         add(barra);   
         
         
@@ -204,49 +205,48 @@ public class Listagem_Frios extends JFrame implements ActionListener {
                 
                 String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
                 
-                //AtualizarContato ic = new AtualizarContato(modelo, idContato, linhaSelecionada);
-                //ic.setVisible(true);
-                
                 Id = Integer.parseInt(ID);
-               dispose();
+                
                 try {
                 
                     new Alteracao_Alimentos_Frios(Id);
+                    dispose();
                     
                 } catch (SQLException ex) {
+                    
                     Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
+                
                 }
             }
-            } else  if (e.getSource() == Adicionar) {
+            
+        }else  if (e.getSource() == Adicionar) {
                 
                
-                
-                new Cadastro_Alimentos_Frios();
+            new Cadastro_Alimentos_Frios();
                 
             
-            }else if (e.getSource() == Apagar) {
-             
-            //deletando os dados da tabela ao pressionar o botao deletar
-            String sql = "delete from bebida where ID_alimento='" + Id + "'";
-
+        }else if (e.getSource() == Apagar) {
+            int linhaSelecionada = -1;
+            
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+                Id = Integer.parseInt(ID);    
+                dispose();
             try {
-
-                PreparedStatement stmt = con.conn.prepareStatement(sql);
-
-
-                stmt.executeUpdate();
-
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
+                
+                new Remocao_Alimentos_Frios(Id);
+           
+            } catch (SQLException ex) {
+                Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
             }
-
             
             }
             
-            else  if (e.getSource() == Voltar) {
+            }else  if (e.getSource() == Voltar) {
                
                 dispose();
                 

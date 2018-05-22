@@ -2,7 +2,7 @@ package Listagem;
 
 
 import Alterações.Alteracao_Alimentos_Frios;
-import Backgrounds.BG_Listagem_Bebidas;
+import Backgrounds.BG_Alteracao;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
 import Cadastros.Cadastro_Alimentos_Massas;
@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import Alterações.Alteracao_Alimentos_Massas;
 import Cadastros.Cadastro_de_Bebidas;
+import Remoção.Remocao_Alimentos_Massas;
 import java.sql.PreparedStatement;
 
 
@@ -67,7 +68,7 @@ public class Listagem_Massas extends JFrame implements ActionListener {
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
-        barra.add(new BG_Listagem_Bebidas());
+        barra.add(new BG_Alteracao());
         add(barra);   
         
         
@@ -224,25 +225,25 @@ public class Listagem_Massas extends JFrame implements ActionListener {
             }if (e.getSource() == Apagar) {
              
             //deletando os dados da tabela ao pressionar o botao deletar
-            String sql = "delete from bebida where ID_alimento='" + Id + "'";
+            int linhaSelecionada = -1;
+            
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+                Id = Integer.parseInt(ID);    
+                dispose();
+                try {
+                    new Remocao_Alimentos_Massas(Id);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Listagem_Massas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            
 
-            try {
-
-                PreparedStatement stmt = con.conn.prepareStatement(sql);
-
-
-                stmt.executeUpdate();
-
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
             }
-
-            
-
-            
             } if (e.getSource() == Voltar) {
                
                 dispose();
@@ -253,8 +254,7 @@ public class Listagem_Massas extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "É necessário selecionar uma linha.");
             
             }    
-        }                  
-    
+        }  
     
     private void textBuscarKeyTyped(java.awt.event.KeyEvent evt) {                                   
         
