@@ -1,7 +1,7 @@
 package Listagem;
 
 
-import Backgrounds.BG_Listagem_Bebidas;
+import Backgrounds.BG_CadAlimentos_Bebida;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
 import java.awt.*;
@@ -17,6 +17,7 @@ import Alterações.Alteracao_Estoque_Bebidas;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Cadastros.Cadastro_de_Bebidas;
+import Remoção.Remocao_Estoque_Bebidas;
 import java.sql.PreparedStatement;
 
 public class Listagem_Bebidas extends JFrame implements ActionListener {
@@ -64,7 +65,7 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
-        barra.add(new BG_Listagem_Bebidas());
+        barra.add(new BG_CadAlimentos_Bebida());
         add(barra);   
         
         
@@ -213,23 +214,26 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
             
             }else if (e.getSource() == Apagar) {
              
-            //deletando os dados da tabela ao pressionar o botao deletar
-            String sql = "delete from bebida where ID_bebida='" + Id + "'";
-
+             int linhaSelecionada = -1;
+            
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+                Id = Integer.parseInt(ID);    
+            
             try {
-
-                PreparedStatement stmt = con.conn.prepareStatement(sql);
-
-
-                stmt.executeUpdate();
-
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
+                
+                new Remocao_Estoque_Bebidas(Id);
+           
+            } catch (SQLException ex) {
+                Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
+            }
+           
             
 
             
