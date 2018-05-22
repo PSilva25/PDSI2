@@ -2,10 +2,11 @@ package Listagem;
 
 
 import Alterações.Alteracao_Alimentos_Vegetais;
-import Backgrounds.BG_Listagem_Bebidas;
+import Backgrounds.BG_Alteracao;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
 import Cadastros.Cadastro_Alimentos_Vegetais;
+import Remoção.Remocao_Alimentos_Vegetais;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -65,7 +66,7 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
-        barra.add(new BG_Listagem_Bebidas());
+        barra.add(new BG_Alteracao());
         add(barra);   
         
         
@@ -216,25 +217,25 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
             
             }if (e.getSource() == Apagar) {
              
-            //deletando os dados da tabela ao pressionar o botao deletar
-            String sql = "delete from cad_vegetais where ID_vegetal='" + Id + "'";
-
-            try {
-
-                PreparedStatement stmt = con.conn.prepareStatement(sql);
-
-
-                stmt.executeUpdate();
-
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
-            }
-
+            int linhaSelecionada = -1;
             
-
+            linhaSelecionada = tableLista.getSelectedRow();
+            
+            if (linhaSelecionada >= 0) {
+                
+                String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
+                
+                Id = Integer.parseInt(ID);    
+                dispose();
+            try {
+                
+                new Remocao_Alimentos_Vegetais(Id);
+           
+            } catch (SQLException ex) {
+                Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            }
             
             } if (e.getSource() == Voltar) {
                
