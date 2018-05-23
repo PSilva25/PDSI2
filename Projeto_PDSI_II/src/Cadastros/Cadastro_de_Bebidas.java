@@ -1,4 +1,4 @@
-package Cadastro_Alimenticio;
+package Cadastros;
 
 import Backgrounds.BG_CadAlimentos_Bebida;
 import Banco_de_Dados.DAO;
