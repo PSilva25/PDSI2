@@ -43,6 +43,7 @@ public class CompraF extends JFrame implements ActionListener {
     JButton Registrar_Compra = new JButton("Registrar Pedido");
     JButton Cancelar_Compra = new JButton("Cancelar Pedido");
     JButton Adicionar = new JButton("Adicionar Pedido");
+    JButton Voltar = new JButton("Voltar");
 
     
     ArrayList<Registro> RegistroList = new ArrayList<Registro>();
@@ -233,6 +234,12 @@ public class CompraF extends JFrame implements ActionListener {
         Cancelar_Compra.addActionListener(this);
         Cancelar_Compra.setFont(fonte);
         add(Cancelar_Compra);
+        
+        Voltar.setBorder(new Borda_Redonda(7));
+        Voltar.setBounds(112, 660, 200, 40);
+        Voltar.addActionListener(this);
+        Voltar.setFont(fonte);
+        add(Voltar);
 
         
         
@@ -481,6 +488,8 @@ public class CompraF extends JFrame implements ActionListener {
 
             }
                           
+        }else if (e.getSource() == Voltar) {
+            dispose();
         }
 
     }
