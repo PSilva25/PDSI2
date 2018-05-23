@@ -223,7 +223,9 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
                 String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
                 
                 Id = Integer.parseInt(ID);    
-            
+                
+                dispose();
+                
             try {
                 
                 new Remocao_Estoque_Bebidas(Id);

@@ -237,7 +237,7 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, e1);
             }
 
-        
+        dispose();
     }
    
     public static void main(String [] args){
