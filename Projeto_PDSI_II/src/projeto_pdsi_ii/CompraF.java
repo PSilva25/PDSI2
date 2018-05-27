@@ -43,7 +43,6 @@ public class CompraF extends JFrame implements ActionListener {
     JButton Registrar_Compra = new JButton("Registrar Pedido");
     JButton Cancelar_Compra = new JButton("Cancelar Pedido");
     JButton Adicionar = new JButton("Adicionar Pedido");
-    JButton Voltar = new JButton("Voltar");
 
     
     ArrayList<Registro> RegistroList = new ArrayList<Registro>();
@@ -78,10 +77,16 @@ public class CompraF extends JFrame implements ActionListener {
     
     JRadioButton aRadioButton = new JRadioButton("Refrigerantes");
     JRadioButton bRadioButton = new JRadioButton("Sucos");
-    JRadioButton cRadioButton = new JRadioButton("milkshake");
-
-    
+    JRadioButton cRadioButton = new JRadioButton("milkshake"); 
     ButtonGroup group = new ButtonGroup();
+    
+    
+      
+    JRadioButton Pequeno = new JRadioButton("300 ML");
+    JRadioButton Medio = new JRadioButton("600 ML");
+    JRadioButton Grande1 = new JRadioButton("1 L");
+    JRadioButton Grande2 = new JRadioButton("2 L");
+    ButtonGroup volume = new ButtonGroup();
 
     
     DAO c = new DAO();
@@ -98,19 +103,19 @@ public class CompraF extends JFrame implements ActionListener {
         Font fonte = new Font("SansSerif", Font.BOLD, 14);
 
        
-        aRadioButton.setBounds(600, 100, 130, 30);
+        aRadioButton.setBounds(600, 90, 130, 30);
         aRadioButton.addActionListener(this);
         aRadioButton.setFont(fonte);
         add(aRadioButton);
         
        
-        bRadioButton.setBounds(730, 100, 80, 30);
+        bRadioButton.setBounds(730, 90, 80, 30);
         bRadioButton.addActionListener(this);
         bRadioButton.setFont(fonte);
         add(bRadioButton);
         
                 
-        cRadioButton.setBounds(810, 100, 110, 30);
+        cRadioButton.setBounds(810, 90, 110, 30);
         cRadioButton.addActionListener(this);
         cRadioButton.setFont(fonte);
         add(cRadioButton);
@@ -146,8 +151,8 @@ public class CompraF extends JFrame implements ActionListener {
         
 
         JLabel Bebida = new JLabel("Bebida: ");
-        Pega_BebidaP.setBounds(690, 155, 130, 30);
-        Bebida.setBounds(620, 150, 130, 40);
+        Pega_BebidaP.setBounds(680, 135, 130, 30);
+        Bebida.setBounds(620, 130, 130, 40);
         Pega_BebidaP.setFont(fonte);
         Bebida.setFont(fonte);
         add(Bebida);
@@ -167,12 +172,38 @@ public class CompraF extends JFrame implements ActionListener {
         
         
         JLabel Quantidade2 = new JLabel("Quantidade:");
-        Pega_Quantidade2.setBounds(707, 200, 70, 30);
-        Quantidade2.setBounds(620, 195, 130, 40);
+        Pega_Quantidade2.setBounds(707, 180, 70, 30);
+        Quantidade2.setBounds(620, 175, 130, 40);
         Pega_Quantidade2.setFont(fonte);
         Quantidade2.setFont(fonte);
         add(Pega_Quantidade2);
         add(Quantidade2);
+              
+        
+        Pequeno.setBounds(600, 220, 80, 30);
+        Pequeno.addActionListener(this);
+        Pequeno.setFont(fonte);
+        add(Pequeno);
+
+        Medio.setBounds(680, 220, 80, 30);
+        Medio.addActionListener(this);
+        Medio.setFont(fonte);
+        add(Medio);
+
+        Grande1.setBounds(760, 220, 54, 30);
+        Grande1.addActionListener(this);
+        Grande1.setFont(fonte);
+        add(Grande1);
+
+        Grande2.setBounds(814, 220, 80, 30);
+        Grande2.addActionListener(this);
+        Grande2.setFont(fonte);
+        add(Grande2);
+
+        volume.add(Pequeno);
+        volume.add(Medio);
+        volume.add(Grande1);
+        volume.add(Grande2);
         
         
         JLabel N = new JLabel("PEDIDOS");
@@ -234,12 +265,6 @@ public class CompraF extends JFrame implements ActionListener {
         Cancelar_Compra.addActionListener(this);
         Cancelar_Compra.setFont(fonte);
         add(Cancelar_Compra);
-        
-        Voltar.setBorder(new Borda_Redonda(7));
-        Voltar.setBounds(112, 660, 200, 40);
-        Voltar.addActionListener(this);
-        Voltar.setFont(fonte);
-        add(Voltar);
 
         
         
@@ -289,7 +314,9 @@ public class CompraF extends JFrame implements ActionListener {
         if(e.getSource() == aRadioButton){
             
             tipo = 1;
+            
             Posiciona_BebidaR();
+            
             Pega_BebidaP.setVisible(false);
             Pega_BebidaR.setVisible(true);
             Pega_BebidaS.setVisible(false);
@@ -316,6 +343,7 @@ public class CompraF extends JFrame implements ActionListener {
         if (e.getSource() == bRadioButton) {
             
             tipo = 2;    
+            
             Posiciona_BebidaS();
             
             Pega_BebidaP.setVisible(false);
@@ -344,6 +372,7 @@ public class CompraF extends JFrame implements ActionListener {
         if (e.getSource()==cRadioButton) {
             
             tipo = 3;
+            
             Posiciona_BebidaM();           
             
             Pega_BebidaP.setVisible(false);
@@ -488,8 +517,6 @@ public class CompraF extends JFrame implements ActionListener {
 
             }
                           
-        }else if (e.getSource() == Voltar) {
-            dispose();
         }
 
     }
