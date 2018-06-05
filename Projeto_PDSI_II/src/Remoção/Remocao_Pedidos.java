@@ -5,7 +5,7 @@ package Remoção;
 import Backgrounds.BG_Remocao;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
-import Listagem.Listagem_Massas;
+import Listagem.Listagem_Pedidos;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Massas;
+import projeto_pdsi_ii.Menu;
 
 
 public class Remocao_Pedidos extends JFrame implements ActionListener {
@@ -30,7 +30,7 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
     
     int Id=0;
     
-    Massas dados_M = new Massas();
+    Menu dados_M = new Menu();
     
     JButton Cancelar = new JButton("Cancelar");
     JButton Remover = new JButton("Remover");
@@ -57,6 +57,7 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
         Pega_Nome_Pedido.setBounds(285, 225, 210, 30);
         Pedido.setBounds(160, 220, 130, 40);
         Pega_Nome_Pedido.setFont(fonte);
+        Pega_Nome_Pedido.setText(dados_M.getLanche());
         Pedido.setFont(fonte);
         add(Pega_Nome_Pedido);
         add(Pedido);
@@ -69,6 +70,7 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
         Preco.setBounds(650, 220, 130, 40);
         Pega_Preco.setFont(fonte);
         Preco.setFont(fonte);
+        Pega_Preco.setText(String.valueOf(dados_M.getPreco()));
         add(Pega_Preco);
         add(Preco);
         
@@ -107,12 +109,12 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
             System.out.println("");
             Remove_dados(Id);
             
-            new Listagem_Massas();
+            new Listagem_Pedidos();
             
         } if (e.getSource() == Cancelar) {
 
             dispose();
-            new Listagem_Massas();
+            new Listagem_Pedidos();
      } 
     }
     
@@ -121,16 +123,15 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
 
          c.conexao();
                
-        c.executaSQL("select * from Pedidos where ID_Pedido = " + ID);
+        c.executaSQL("select * from menu where ID_Lanche = " + ID);
    
         try {
 
             c.rs.first();                   
                     
-            //dados_M.setTipo(c.rs.getString("Tipo"));
-            //dados_M.setFornecedor((c.rs.getString("Fornecedor")));
-            //dados_M.setQuantidade(c.rs.getInt("Quantidade"));
-            //dados_M.setQuant_porcao(c.rs.getInt("Quantidade_porcao"));
+            
+            dados_M.setLanche((c.rs.getString("Nome")));
+            dados_M.setPreco(c.rs.getFloat("Preco"));
             
                                         
         } catch (SQLException ex) {
@@ -144,7 +145,7 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
     
     public void Remove_dados(int Id){
         
-        String sql = "delete from Pedidos where ID_Pedido='" + Id + "'";
+        String sql = "delete from menu where ID_Lanche='" + Id + "'";
 
             try {
 
