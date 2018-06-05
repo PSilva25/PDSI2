@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Cadastro_Alimento;
+import projeto_pdsi_ii.*;
 
 
 public class Cadastro_Pedidos extends JFrame implements ActionListener {
@@ -30,7 +30,7 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
     JButton Voltar = new JButton("Voltar");
     JButton Adicionar = new JButton("Cadastrar Pedido");
  
-    Cadastro_Alimento dados_AL = new Cadastro_Alimento();
+    Menu dados_Menu = new Menu();
     
     JTextField Pega_Nome_Pedido = new JTextField();
     JTextField Pega_Preco = new JTextField();
@@ -97,7 +97,8 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
     
     public void preenche(){
         
-    
+            dados_Menu.setLanche((String) Pega_Nome_Pedido.getText());
+            dados_Menu.setPreco(Float.parseFloat(Pega_Preco.getText()));
          
     }
     
@@ -125,6 +126,7 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
         else if (e.getSource() == Voltar) {
             
             dispose();
+            new Principal();
            
         }
     }
@@ -135,20 +137,16 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
          
         
         c.conexao();
-        String sql = "insert into cad_alimentos (Tipo, Fornecedor,QuantidadeT, Preco_de_compra, preco_total, Quantidade_kg_porcao) values (?,?,?,?,?,?);";
+        String sql = "insert into menu (Nome,Preco) values (?,?);";
 
         PreparedStatement stmt = c.conn.prepareStatement(sql);
         
         
         try {
                 
-            stmt.setString(1,dados_AL.getTipo());
-            stmt.setString(2,dados_AL.getFornecedor());
-            stmt.setFloat(3,dados_AL.getQuantT());
-            stmt.setFloat(4,dados_AL.getPreco());
-            stmt.setFloat(5,dados_AL.getPreco_Total());
-            stmt.setFloat(6,dados_AL.getUniPorcao());
-        
+            stmt.setString(1,dados_Menu.getLanche());
+            stmt.setFloat(2,dados_Menu.getPreco());
+           
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar este produto!");
@@ -161,6 +159,9 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
         stmt.execute();
 
         stmt.close();
+        
+        Pega_Nome_Pedido.setText("");
+        Pega_Preco.setText("");
         
     }
 
