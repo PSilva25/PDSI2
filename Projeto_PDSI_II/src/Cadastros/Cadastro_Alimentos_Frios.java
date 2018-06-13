@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Cadastro_Alimento;
+import Getters_e_Setters.Cadastro_Alimento;
+import projeto_pdsi_ii.Login;
+import projeto_pdsi_ii.Principal;
 
 
 public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
@@ -175,37 +177,33 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
          
     }
     public void actionPerformed(ActionEvent e) {
-
-      
-       
+    
         if (e.getSource() == Adicionar) {
-            
+           
             try {
-                 preenche();
-                ArmazenaDados();
                 
+                preenche();
+                ArmazenaDados();              
                 
             } catch (SQLException ex) {
                 
-        
-
+            
             }
-        
-        }
 
-        else if (e.getSource() == Voltar) {
+        }else if (e.getSource() == Voltar) {
             
             dispose();
            
         }
     }
+    
+        
+       
  
     public void ArmazenaDados() throws SQLException {
 
-                
-         
-        
-         c.conexao();
+ 
+        c.conexao();
         String sql = "insert into cad_alimentos (Tipo, Fornecedor,QuantidadeT, Preco_de_compra, preco_total, Quantidade_kg_porcao) values (?,?,?,?,?,?);";
 
         PreparedStatement stmt = c.conn.prepareStatement(sql);

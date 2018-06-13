@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Vegetais;
+import projeto_pdsi_ii.Login;
+import projeto_pdsi_ii.Principal;
+import Getters_e_Setters.Vegetais;
 
 
 public class Cadastro_Alimentos_Vegetais extends JFrame implements ActionListener {
@@ -157,16 +159,16 @@ public class Cadastro_Alimentos_Vegetais extends JFrame implements ActionListene
             } catch (SQLException ex) {
 
             }
-        
-        }
-
-        else if (e.getSource() == Voltar) {
+            
+        }else if (e.getSource() == Voltar) {
             
             dispose();
-           
+        
         }
-    }
  
+    }
+       
+    
     public void ArmazenaDados() throws SQLException { 
         
         c.conexao();
