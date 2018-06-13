@@ -5,7 +5,10 @@
  */
 package projeto_pdsi_ii;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import Backgrounds.BG_Principal;
+import Banco_de_Dados.DAO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -16,7 +19,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import Cadastros.*;
 import Listagem.*;
+import java.awt.List;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -33,7 +45,7 @@ public class Principal extends JFrame implements ActionListener{
     JMenuItem Item1_1 = new JMenuItem("Efetuar Venda");
     
     JMenu Menu2 = new JMenu("Cadastros");
-    JMenuItem Item2_1 = new JMenuItem("Pedidos");
+    JMenuItem Item2_1 = new JMenuItem("Cardápio");
     JMenuItem Item2_2 = new JMenuItem("Bebidas");
     JMenu MenuItem2_3 = new JMenu("Alimentos");
     JMenuItem Item2_3_1 = new JMenuItem("Frios");
@@ -42,7 +54,7 @@ public class Principal extends JFrame implements ActionListener{
       
     
     JMenu Menu3 = new JMenu("Listagem");
-    JMenuItem Item3_1 = new JMenuItem("Pedidos");
+    JMenuItem Item3_1 = new JMenuItem("Cardápio");
     JMenuItem Item3_2 = new JMenuItem("Bebidas");
     JMenu MenuItem3_3 = new JMenu("Alimentos");
     JMenuItem Item3_3_1 = new JMenuItem("Frios");
@@ -52,11 +64,14 @@ public class Principal extends JFrame implements ActionListener{
     
     
     JMenu Menu4 = new JMenu("Caixa");
-    JMenuItem Item4_1 = new JMenuItem("Abrir / Fechar Caixa");
+    JMenuItem Item4_1 = new JMenuItem("Abrir Caixa");
+    JMenuItem Item4_2 = new JMenuItem("Fechar Caixa");
     
     JMenu Menu5 = new JMenu("Sobre");
    
- 
+    JButton caixa = new JButton();
+    
+    DAO con = new DAO();
     
     public Principal(){
         
@@ -98,6 +113,9 @@ public class Principal extends JFrame implements ActionListener{
         Item4_1.setFont(fonte);
         Item4_1.addActionListener(this);
         
+        Item4_2.setFont(fonte);
+        Item4_2.addActionListener(this);
+        
         MenuItem2_3.setFont(fonte);
         MenuItem3_3.setFont(fonte);
         
@@ -133,6 +151,7 @@ public class Principal extends JFrame implements ActionListener{
         ///////////////////////////////////
         
         Menu4.add(Item4_1);
+        Menu4.add(Item4_2);
         Menu4.setFont(fonte);
         
     
@@ -145,6 +164,21 @@ public class Principal extends JFrame implements ActionListener{
         Barra.add(Menu4);
        
         Barra.setBackground(Color.GREEN);
+        
+        
+        caixa.setBounds(10, 450, 15, 15);
+        
+        if(Status() == 1){
+            
+            caixa.setBackground(Color.GREEN);
+        
+        }else{
+            
+            caixa.setBackground(Color.RED);
+        
+        }
+        
+        add(caixa);
         
         
         add(new BG_Principal());
@@ -161,32 +195,83 @@ public class Principal extends JFrame implements ActionListener{
     }
     
     
-    
+    public int Status(){
+        
+        int status = 0;
+        
+        Date agora = new Date();
+        DateFormat mostradata;
+        mostradata = DateFormat.getDateInstance(DateFormat.SHORT);
+        String x = mostradata.format(agora);
+        
+        ArrayList<String> PegaData = new ArrayList<>();
+        
+        con.conexao();
+
+        con.executaSQL("select * from abertura_caixa");
+   
+        try {
+
+            con.rs.first();
+                   
+            do{     
+               
+                String data = con.rs.getString("Data_abertura");
+                
+                PegaData.add(data);
+  
+            }while (con.rs.next());
+                        
+        } catch (SQLException ex) {
+
+        }
+        
+        
+        for(int i = 0; i < PegaData.size(); i++){
+            
+            if(x.equals(PegaData.get(i))){
+                
+                status = 1;
+                break;
+                
+            }
+            
+        }
+        
+        return status;  
+           
+    }
+     
     
     public void actionPerformed(ActionEvent e) {
         
-        if(e.getSource() == Item1_1) new CompraF();
-        //if(e.getSource() == Item2_1) 
-        if(e.getSource() == Item2_2) new Cadastro_de_Bebidas();
-        if(e.getSource() == Item2_3_1) new Cadastro_Alimentos_Frios();
-        if(e.getSource() == Item2_3_2) new Cadastro_Alimentos_Massas();
-        if(e.getSource() == Item2_3_3) new Cadastro_Alimentos_Vegetais();
-        //if(e.getSource() == Item3_1)
-        if(e.getSource() == Item3_2) new Listagem_Bebidas();
-        if(e.getSource() == Item3_3_1) new Listagem_Frios();
-        if(e.getSource() == Item3_3_2) new Listagem_Massas();
-        if(e.getSource() == Item3_3_3) new Listagem_Vegetais();
-        //if(e.getSource() == Item4_1)
-        //if(e.getSource() == Item5_1)
+        if(e.getSource() == Item1_1) new Compra();
         
+        if(e.getSource() == Item2_1) new Cadastro_Pedidos();
+        if(e.getSource() == Item2_2) new Status_Login(1);
+        if(e.getSource() == Item2_3_1) new Status_Login(2);
+        if(e.getSource() == Item2_3_2) new Status_Login(3);
+        if(e.getSource() == Item2_3_3) new Status_Login(4);
+        
+        if(e.getSource() == Item3_1) new Listagem_Pedidos();
+        if(e.getSource() == Item3_2) new Status_Login(5);
+        if(e.getSource() == Item3_3_1) new Status_Login(6);
+        if(e.getSource() == Item3_3_2) new Status_Login(7);
+        if(e.getSource() == Item3_3_3) new Status_Login(8);
+        
+        if(e.getSource() == Item4_1) new abrir_caixa();
+        if(e.getSource() == Item4_2) new fechar_caixa();
+        
+       
     }
-    
-    
-    
-    
+     
+
     public static void main(String[]args) {
         
+               
         new Principal();
+        
+        
         
     }
     

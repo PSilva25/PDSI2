@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Massas;
+import projeto_pdsi_ii.Login;
+import Getters_e_Setters.Massas;
+import projeto_pdsi_ii.Principal;
 
 
 public class Cadastro_Alimentos_Massas extends JFrame implements ActionListener {
@@ -132,37 +134,30 @@ public class Cadastro_Alimentos_Massas extends JFrame implements ActionListener 
          
     }
     public void actionPerformed(ActionEvent e) {
-
-      
-       
+    
         if (e.getSource() == Adicionar) {
-            
+                     
             try {
-                 preenche();
+                
+                preenche();
                 ArmazenaDados();
-                
-                
+         
             } catch (SQLException ex) {
-                
-        
 
             }
         
-        }
-
-        else if (e.getSource() == Voltar) {
+        }else if (e.getSource() == Voltar) {
             
             dispose();
            
         }
     }
  
+   
+       
     public void ArmazenaDados() throws SQLException {
-
-                
-         
-        
-         c.conexao();
+     
+        c.conexao();
         String sql = "insert into cad_massas (Tipo, Fornecedor,Quantidade, Quantidade_porcao) values (?,?,?,?);";
 
         PreparedStatement stmt = c.conn.prepareStatement(sql);

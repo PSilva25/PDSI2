@@ -21,10 +21,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Bebida;
-import projeto_pdsi_ii.CompraF;
-import projeto_pdsi_ii.Lanche;
-import projeto_pdsi_ii.Registro;
+import Getters_e_Setters.Bebida;
+import projeto_pdsi_ii.Compra;
+import Getters_e_Setters.Lanche;
+import projeto_pdsi_ii.Login;
+import projeto_pdsi_ii.Principal;
+import Getters_e_Setters.Registro;
+import projeto_pdsi_ii.Status_Login;
 
 public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
     
@@ -58,8 +61,10 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
 
     int indexLanhe = 0, indexBebida = 0, tipo = 0, tamanho = 0;
 
+    //Status_Login sl = new Status_Login();
+    
     public Cadastro_de_Bebidas() {
-
+        
         Font fonte = new Font("SansSerif", Font.BOLD, 14);
 
         JLabel Tipo_Bebida = new JLabel("Tipo: ");
@@ -153,6 +158,8 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        
 
     }
 
@@ -165,7 +172,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
         
 
         if (e.getSource() == Adicionar) {
-            
+                   
             dados_bebida.setTipo((String) Pega_Tipo_Bebida.getSelectedItem());
             dados_bebida.setBebida(Pega_Nome_Bebida.getText());
             dados_bebida.setFornecedor(Pega_Nome_Fornecedor.getText());
@@ -184,15 +191,18 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
             } catch (SQLException ex) {
                 
         
-
             }
-
-        }if (e.getSource() == Voltar) {
+        
+        }else if (e.getSource() == Voltar) {
 
             dispose();
+            
         }
-        }
+    
+    }
  
+        
+       
     public void ArmazenaDados() throws SQLException{
 
         c.conexao();

@@ -122,7 +122,7 @@ public class Listagem_Vegetais extends JFrame implements ActionListener {
 
         setTitle("..:FastZooom:..");
         setSize(1100, 550);  
-        getContentPane().setBackground(Color.decode("#82b3d1"));
+        getContentPane().setBackground(Color.decode("#009fe3"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
