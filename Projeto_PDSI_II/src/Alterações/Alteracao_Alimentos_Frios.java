@@ -23,13 +23,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Cadastro_Alimento;
+import Getters_e_Setters.Cadastro_Alimento;
 import Listagem.Listagem_Frios;
 
 
 public class Alteracao_Alimentos_Frios extends JFrame implements ActionListener {
     
     int Id = 0;
+    
+    String[]botoes = {"SIM", "NAO"};
     
     JButton Cancelar = new JButton("Cancelar");
     JButton Alterar = new JButton("Alterar");
@@ -169,10 +171,24 @@ public class Alteracao_Alimentos_Frios extends JFrame implements ActionListener 
           
             try {
                 
+                int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
                 Atualiza(Id);
                 
                 new Listagem_Frios();
             
+                
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+            
+             new Listagem_Frios();
+            
+            }
+             
             } catch (SQLException ex) {
             
                 Logger.getLogger(Alteracao_Estoque_Bebidas.class.getName()).log(Level.SEVERE, null, ex);

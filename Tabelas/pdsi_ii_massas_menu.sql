@@ -16,31 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `menu`
+-- Table structure for table `massas_menu`
 --
 
-DROP TABLE IF EXISTS `menu`;
+DROP TABLE IF EXISTS `massas_menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `menu` (
-  `ID_menu` int(11) NOT NULL,
+CREATE TABLE `massas_menu` (
+  `ID_massas` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
-  `Preco` float DEFAULT NULL,
-  `ID_frios` int(11) DEFAULT NULL,
-  `ID_massas` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID_menu`),
-  KEY `fk_frios_menu` (`ID_frios`),
-  KEY `fk_massas_menu` (`ID_massas`)
+  `Quant_porcao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_massas`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menu`
+-- Dumping data for table `massas_menu`
 --
 
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+LOCK TABLES `massas_menu` WRITE;
+/*!40000 ALTER TABLE `massas_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `massas_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-12 22:14:24
+-- Dump completed on 2018-06-12 22:14:23

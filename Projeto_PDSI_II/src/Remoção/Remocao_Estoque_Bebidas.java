@@ -22,13 +22,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Bebida;
-import projeto_pdsi_ii.Lanche;
-import projeto_pdsi_ii.Registro;
+import Getters_e_Setters.Bebida;
+import Getters_e_Setters.Lanche;
+import Getters_e_Setters.Registro;
 
 
 public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
     
+    String[]botoes = {"SIM", "NAO"};
     
     JButton Cancelar = new JButton("Cancelar");
     JButton Remover = new JButton("Remover");
@@ -180,9 +181,20 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         
         if (e.getSource() == Remover) {
           
-            Remove_dados(Id);
+            int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
             
-            new Listagem_Bebidas();
+                Remove_dados(Id);
+                
+                new Listagem_Bebidas();
+            
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+                new Listagem_Bebidas();
+            }
             
         } if (e.getSource() == Cancelar) {
 

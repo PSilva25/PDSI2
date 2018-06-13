@@ -22,13 +22,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Menu;
+import Getters_e_Setters.Menu;
 
 
 public class Remocao_Pedidos extends JFrame implements ActionListener {
     
     
     int Id=0;
+    
+    String[]botoes = {"SIM", "NAO"};
     
     Menu dados_M = new Menu();
     
@@ -106,10 +108,23 @@ public class Remocao_Pedidos extends JFrame implements ActionListener {
         
         if (e.getSource() == Remover) {
           
-            System.out.println("");
-            Remove_dados(Id);
+          int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
+                Remove_dados(Id);
+                
+                new Listagem_Pedidos();
+            
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
             
             new Listagem_Pedidos();
+            
+            }
+            
             
         } if (e.getSource() == Cancelar) {
 

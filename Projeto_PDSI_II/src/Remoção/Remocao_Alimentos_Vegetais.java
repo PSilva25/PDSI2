@@ -22,12 +22,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Vegetais;
+import Getters_e_Setters.Vegetais;
 
 public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener {
     
     
     int Id=0;
+    
+    String[]botoes = {"SIM", "NAO"};
     
     Vegetais dados_V = new Vegetais();
     
@@ -146,9 +148,23 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
         
         if (e.getSource() == Remover) {
           
-            Remove_dados(Id);
+         int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
+                Remove_dados(Id);
+                
+                new Listagem_Vegetais();
+            
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
             
             new Listagem_Vegetais();
+            
+            }
+            
             
         } if (e.getSource() == Cancelar) {
 
