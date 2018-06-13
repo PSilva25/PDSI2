@@ -25,12 +25,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Massas;
+import Getters_e_Setters.Massas;
 import Listagem.*;
 
 public class Alteracao_Alimentos_Massas extends JFrame implements ActionListener {
     
     int Id=0;
+    
+    String[]botoes = {"SIM", "NAO"};
     
     Massas dados_M = new Massas();
     
@@ -135,11 +137,25 @@ public class Alteracao_Alimentos_Massas extends JFrame implements ActionListener
      if (e.getSource() == Alterar) {
           
             try {
-                
+                  
+                int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
                 Atualiza(Id);
                 
                 new Listagem_Massas();
             
+                
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+            
+            new Listagem_Massas();
+            
+            }
+             
             } catch (SQLException ex) {
             
                 Logger.getLogger(Alteracao_Estoque_Bebidas.class.getName()).log(Level.SEVERE, null, ex);

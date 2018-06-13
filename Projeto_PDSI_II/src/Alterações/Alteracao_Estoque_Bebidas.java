@@ -25,14 +25,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Bebida;
-import projeto_pdsi_ii.Lanche;
-import projeto_pdsi_ii.Registro;
-import projeto_pdsi_ii.Bebida;
+import Getters_e_Setters.Bebida;
+import Getters_e_Setters.Lanche;
+import Getters_e_Setters.Registro;
+import Getters_e_Setters.Bebida;
+import Listagem.Listagem_Massas;
 
 public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener {
     
-     
+    String[]botoes = {"SIM", "NAO"};
      
     JButton Cancelar = new JButton("Cancelar");
     JButton Alterar = new JButton("Alterar");
@@ -210,12 +211,30 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
       if (e.getSource() == Alterar) {
           
             try {
+                      int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
                 Atualiza(y);
+                   
+                new Listagem_Bebidas();
+                
+            
+                
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+            
+                 new Listagem_Bebidas();
+            
+            }
+             
             } catch (SQLException ex) {
                 Logger.getLogger(Alteracao_Estoque_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            new Listagem_Bebidas();
+            
       }
       if (e.getSource() == Cancelar) {
 
