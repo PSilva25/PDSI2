@@ -25,13 +25,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Cadastro_Alimento;
+import Getters_e_Setters.Cadastro_Alimento;
 
 
 
 public class Remocao_Alimentos_Frios extends JFrame implements ActionListener {
     
     int Id=0;
+    
+    String[]botoes = {"SIM", "NAO"};
     
     Cadastro_Alimento dados_F = new Cadastro_Alimento();
     
@@ -164,11 +166,28 @@ public class Remocao_Alimentos_Frios extends JFrame implements ActionListener {
     
      public void actionPerformed(ActionEvent e) { 
         
-        if (e.getSource() == Remover) {
-          
-            Remove_dados(Id);
+        
             
-            new Listagem_Frios();
+        if (e.getSource() == Remover) {
+           
+            int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Sem saída",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
+                Remove_dados(Id);
+                
+                new Listagem_Frios();
+            
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+            
+             new Listagem_Frios();
+            
+            }
+            
+            
             
         } if (e.getSource() == Cancelar) {
 

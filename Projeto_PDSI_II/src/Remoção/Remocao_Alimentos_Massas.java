@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import projeto_pdsi_ii.Massas;
+import Getters_e_Setters.Massas;
 
 
 public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
@@ -30,7 +30,10 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
     
     int Id=0;
     
+    String[]botoes = {"SIM", "NAO"};
+    
     Massas dados_M = new Massas();
+    
     
     JButton Cancelar = new JButton("Cancelar");
     JButton Remover = new JButton("Remover");
@@ -130,13 +133,26 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) { 
         
+         String[]botoes = {"SIM", "NAO"};
         if (e.getSource() == Remover) {
           
-            System.out.println("");
-            Remove_dados(Id);
+           int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           
+            if(botoes[opcao].equals("SIM")){
+            
+                Remove_dados(Id);
+                
+                new Listagem_Massas();
+            
+            }else{
+                
+            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
             
             new Listagem_Massas();
             
+            }
+             
         } if (e.getSource() == Cancelar) {
 
             dispose();
