@@ -1,5 +1,6 @@
 package Cadastros;
 
+import Getters_e_Setters.Menu;
 import Backgrounds.BG_CadAlimentos_Frios;
 import Backgrounds.BG_CadPedidos;
 import Banco_de_Dados.DAO;
@@ -112,6 +113,9 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
             try {
                 
                 preenche();
+                
+                new exemplo();
+                
                 ArmazenaDados();
                 
                 
@@ -160,8 +164,10 @@ public class Cadastro_Pedidos extends JFrame implements ActionListener {
 
         stmt.close();
         
+        
         Pega_Nome_Pedido.setText("");
         Pega_Preco.setText("");
+        
         
     }
 
