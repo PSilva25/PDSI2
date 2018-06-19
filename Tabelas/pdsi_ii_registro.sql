@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: pdsi_ii
 -- ------------------------------------------------------
--- Server version	5.7.19
+-- Server version	5.7.14
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,9 +26,12 @@ CREATE TABLE `registro` (
   `ID_Registro` int(11) NOT NULL AUTO_INCREMENT,
   `Pedidos` varchar(100) DEFAULT NULL,
   `Preco` float DEFAULT NULL,
+  `Quantidade` int(11) NOT NULL,
+  `Total` float NOT NULL,
   `Data_Registrada` varchar(100) DEFAULT NULL,
+  `Pagamento` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID_Registro`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +40,7 @@ CREATE TABLE `registro` (
 
 LOCK TABLES `registro` WRITE;
 /*!40000 ALTER TABLE `registro` DISABLE KEYS */;
-INSERT INTO `registro` VALUES (1,'sanduiche',4.5,'2018-04-11 12:26:30'),(2,'tubarel',4.5,'2018-04-11 12:26:30'),(3,'batata frita',4.5,'2018-04-11 13:30:36'),(4,'tubarel',4.5,'2018-04-11 13:30:36'),(5,'batata frita',4.5,'2018-04-11 13:31:22'),(6,'tubarel',4.5,'2018-04-11 13:31:22'),(7,'batata frita',4.5,'2018-04-11 13:31:22'),(8,'limão',4.5,'2018-04-11 13:31:22'),(9,'batata frita',4.5,'2018-04-11 13:31:44'),(10,'tubarel',4.5,'2018-04-11 13:31:44'),(11,'batata frita',4.5,'2018-04-11 13:31:44'),(12,'limão',4.5,'2018-04-11 13:31:44'),(13,'sanduiche',4.5,'2018-04-11 13:31:44'),(14,'cajuina',4.5,'2018-04-11 13:31:44'),(15,'batata frita',4.5,'2018-04-14 22:21:35'),(16,'tubarel',4.5,'2018-04-14 22:21:35');
+INSERT INTO `registro` VALUES (1,'X-Burguer',8,0,0,'18/06/18','Dinheiro'),(2,'Coca-Cola',2.5,0,0,'18/06/18','Dinheiro'),(3,'X-Burguer',8,0,0,'18/06/18','Cartão'),(4,'Coca-Cola',2.5,0,0,'18/06/18','Cartão'),(5,'X-Burguer',8,0,0,'18/06/18','Dinheiro'),(6,'Coca-Cola',2.5,0,0,'18/06/18','Dinheiro'),(7,'X-Burguer',8,0,0,'18/06/18','Cartão'),(8,'Coca-Cola',2.5,0,0,'18/06/18','Cartão'),(9,'X-Burguer',8,0,0,'18/06/18','Cartão'),(10,'Coca-Cola',2.5,0,0,'18/06/18','Cartão'),(11,'X-Burguer',8,0,0,'18/06/18','Dinheiro'),(12,'Coca-Cola',2.5,0,0,'18/06/18','Dinheiro'),(13,'X-Burguer',8,0,0,'18/06/18','Dinheiro'),(14,'Coca-Cola',2.5,0,0,'18/06/18','Dinheiro'),(15,'X-Burguer',8,0,0,'18/06/18','Dinheiro'),(16,'Coca-Cola',2.5,0,0,'18/06/18','Dinheiro'),(17,'X-Burguer',8,2,16,'18/06/18','Cartão'),(18,'Coca-Cola',2.5,2,5,'18/06/18','Cartão');
 /*!40000 ALTER TABLE `registro` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-17 12:49:07
+-- Dump completed on 2018-06-18 20:05:31

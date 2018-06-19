@@ -21,8 +21,7 @@ import Remoção.Remocao_Estoque_Bebidas;
 import java.sql.PreparedStatement;
 
 public class Listagem_Caixa extends JFrame implements ActionListener {
-    
-    
+        
     int Id = 0, Status_Abrir = 0, Status_Fechar = 0;
    
     JTable tableLista;
@@ -51,52 +50,41 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
     DAO con = new DAO();
     
     
-    
-    
     public Listagem_Caixa() {
-        
-        
+              
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
-        
         
         Container c = this.getContentPane();
         c.setLayout(null);
-       
       
         nada();
-        
-        
+              
         Abrir.setBounds(460, 45, 170, 30);
         Abrir.addActionListener(this);
         Abrir.setFont(fonte);
         Abrir.setBackground(Color.decode("#009fe3"));
         add(Abrir);
-        
-                
+                       
         Fechar.setBounds(630, 45, 200, 30);
         Fechar.addActionListener(this);
         Fechar.setFont(fonte);
         Fechar.setBackground(Color.decode("#009fe3"));
         add(Fechar);
-        
-        
+              
         Caixa.add(Abrir);
         Caixa.add(Fechar);
-        
-              
+                    
         tableLista = new JTable();
         tableLista.setBackground(Color.WHITE);
         tableLista.setModel(modelo);
         tableLista.setFillsViewportHeight(true);
-        
-                
+                       
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
         barra.add(new BG_CadAlimentos_Bebida());
         add(barra);   
-        
-        
+               
         JLabel Busca = new JLabel("Filtro:");
         Busca_tabela.setBounds(130, 45, 300, 30);
         Busca.setBounds(80, 40, 50, 40);
@@ -104,8 +92,7 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
         Busca.setFont(fonte);
         add(Busca_tabela);
         add(Busca);
-        
-        
+               
         Busca_tabela.addKeyListener(new java.awt.event.KeyAdapter() {
             
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -113,18 +100,15 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
                 textBuscarKeyTyped(evt);
                 
             }
-        }
-        );
-        
-        
+            
+        });
+               
         Voltar.setBorder(new Borda_Redonda(7));
         Voltar.setBounds(80, 440, 100, 40);
         Voltar.addActionListener(this);
         Voltar.setFont(fonte);
         add(Voltar);
-        
-        
-        
+               
         setTitle("..:FastZooom:..");
         setSize(1100, 550);  
         getContentPane().setBackground(Color.decode("#009fe3"));
@@ -135,8 +119,7 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
 
     }
     
-    
-    
+       
     public void Posiciona_tabela_Abrir(){
         
         tabela();
@@ -178,25 +161,28 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
         modelo = (DefaultTableModel) (new DefaultTableModel() {
 
             public boolean isCellEditable(int row, int coluna) {
+                
                 return false;
+           
             }
             
             public boolean isCellRedimentionable(int row, int coluna) {
+               
                 return true;
+           
             }
             
         });
         
         modelo.setColumnIdentifiers(colunas);
-        modelo.setNumRows(0);
-       
+        modelo.setNumRows(0);     
         
     }
     
        
     public void tabela(){
         
-        String[] colunas = {"ID", "Bebida", "Tipo", "Preco"};
+        String[] colunas = {"ID", "Descrição", "Valor da Abertura", "Data", "Hora"};
 
         modeloAbrir = (DefaultTableModel) (new DefaultTableModel() {
 
@@ -215,7 +201,7 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
         
         con.conexao();
 
-        con.executaSQL("select * from bebida");
+        con.executaSQL("select * from caixa_abertura");
    
         try {
 
@@ -223,14 +209,15 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
                    
             do{     
                 
-                String[] dados = new String[4];
+                String[] dados = new String[5];
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 5; i++) {
                     
-                    dados[0] = String.valueOf(con.rs.getInt("ID_bebida"));
-                    dados[1] = con.rs.getString("Nome");
-                    dados[2] = con.rs.getString("Tipo");
-                    dados[3] = String.valueOf(con.rs.getString("Preco"));
+                    dados[0] = String.valueOf(con.rs.getInt("ID_Abertura"));
+                    dados[1] = con.rs.getString("Descricao");
+                    dados[2] = String.valueOf(con.rs.getFloat("Valor_abertura"));
+                    dados[3] = con.rs.getString("Data_abertura");
+                    dados[4] = con.rs.getString("Hora_Abertura");
 
                 }
                 
@@ -243,23 +230,26 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }
-        
-        
+              
     }
     
     
     public void tabela2(){
         
-        String[] colunas = {"ID", "Tipo", "Fornecedor", "Quantidade", "Quat. Porção", "Preço de Compra", "Preço Total"};
+        String[] colunas = {"ID", "Valor de vendas", "Valor de Sangria", "Valor Total", "Data de Fechamento", "Hora de Fechamento"};
 
         modeloFechar = (DefaultTableModel) (new DefaultTableModel() {
 
             public boolean isCellEditable(int row, int coluna) {
+                
                 return false;
+            
             }
             
             public boolean isCellRedimentionable(int row, int coluna) {
+               
                 return true;
+            
             }
             
         });
@@ -269,7 +259,7 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
         
         con.conexao();
 
-        con.executaSQL("select * from cad_alimentos");
+        con.executaSQL("select * from caixa_fechamento");
    
         try {
 
@@ -277,17 +267,16 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
                    
             do{     
                 
-                String[] dados = new String[7];
+                String[] dados = new String[6];
 
-                for (int i = 0; i < 7; i++) {
+                for (int i = 0; i < 6; i++) {
                     
-                    dados[0] = String.valueOf(con.rs.getInt("ID_alimento"));
-                    dados[1] = con.rs.getString("Tipo");
-                    dados[2] = con.rs.getString("Fornecedor");
-                    dados[3] = String.valueOf(con.rs.getInt("QuantidadeT"));
-                    dados[4] = String.valueOf(con.rs.getFloat("Quantidade_kg_porcao"));
-                    dados[5] = String.valueOf(con.rs.getInt("Preco_de_compra"));
-                    dados[6] = String.valueOf(con.rs.getInt("Preco_total"));
+                    dados[0] = String.valueOf(con.rs.getInt("ID_fechamento"));
+                    dados[1] = String.valueOf(con.rs.getFloat("Valor"));
+                    dados[2] = String.valueOf(con.rs.getFloat("Valor_sangria"));
+                    dados[3] = String.valueOf(con.rs.getFloat("Valor_total"));
+                    dados[4] = String.valueOf(con.rs.getString("data_fechamento"));
+                    dados[5] = String.valueOf(con.rs.getString("hora_fechamento"));
 
                 }
                 
@@ -300,8 +289,7 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }
-        
-        
+               
     }
     
     
@@ -316,8 +304,7 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
             if(Status_Fechar != 0) barraFechar.setVisible(false);
                        
             Posiciona_tabela_Abrir();
-            
-            
+                       
         }else if(e.getSource() == Fechar){
             
             Status_Fechar = 1;
@@ -327,14 +314,14 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
             if(Status_Abrir != 0) barraAbrir.setVisible(false);
             
             Posiciona_tabela_Fechar();
-            
-            
+                     
         }else if(e.getSource() == Voltar) {
                
                 dispose();
                       
-            }    
         }
+        
+    }
        
          
     private void textBuscarKeyTyped(java.awt.event.KeyEvent evt) {                                   
@@ -348,7 +335,9 @@ public class Listagem_Caixa extends JFrame implements ActionListener {
                 Busca_tabela.setText(cadena);
                 
                 filtro();
+            
             }
+            
         });
         
         Filtro = new TableRowSorter(tableLista.getModel());

@@ -35,7 +35,7 @@ public class Pagamento extends JFrame implements ActionListener{
        
     ArrayList<Registro> RegistroList = new ArrayList<Registro>();
     ArrayList<Registro> RegistroListAtt = new ArrayList<Registro>();
-   
+    
     JRadioButton PG1 = new JRadioButton("Dinheiro");
     JRadioButton PG2 = new JRadioButton("Cartão");
     
@@ -51,20 +51,16 @@ public class Pagamento extends JFrame implements ActionListener{
     DAO c = new DAO();
 
     
-   
-    
     public Pagamento(ArrayList<Registro> RegistroList) {
         
         this.RegistroList = RegistroList;
+               
+        Preenche(this.RegistroList);
         
-        
-        Preenche();
-        
-        
+               
         Font fonte = new Font("SansSerif", Font.BOLD, 20);
         Font fonte_botoes = new Font("SansSerif", Font.BOLD, 17);          
-        
-        
+               
         PG1.setBackground(Color.decode("#009fe3"));
         PG1.setBounds(130, 100, 120, 30);
         PG1.addActionListener(this);
@@ -110,20 +106,23 @@ public class Pagamento extends JFrame implements ActionListener{
     
     }
     
-    
-    
-    
-    public void Preenche(){
-        
-        Registro reg = new Registro();
-        
-        for(Registro r : RegistroList){
+  
+    public void Preenche(ArrayList<Registro> a){
+             
+        for(Registro r : a){
             
-          reg.setNOME(r.getNOME());
-          reg.setPRECO(r.getPRECO());
-          reg.setQUANTIDADE(r.getQUANTIDADE());
+            Registro reg = new Registro();
+           
+            String n = r.getNOME();
+            reg.setNOME(n);
+
+            float p = r.getPRECO();
+            reg.setPRECO(p);
+            
+            int q = r.getQUANTIDADE();
+            reg.setQUANTIDADE(q);
           
-          RegistroListAtt.add(reg);
+            RegistroListAtt.add(reg);
                        
         }
                       
@@ -149,7 +148,9 @@ public class Pagamento extends JFrame implements ActionListener{
             
             try {
                 
+                mostra();
                 Registra();
+                dispose();
             
             } catch (SQLException ex) {
             
@@ -165,7 +166,22 @@ public class Pagamento extends JFrame implements ActionListener{
         
     }
     
-           
+    
+    
+    public void mostra(){
+        
+        for(Registro r : RegistroListAtt){
+            
+            System.out.println("Nome: "+r.getNOME());
+            System.out.println("Preço: "+r.getPRECO());
+            System.out.println("Quantidade: "+r.getQUANTIDADE());
+            
+            System.out.println("\n");
+        }
+        
+    }
+    
+    
     public void Registra() throws SQLException{
         
         c.conexao();
@@ -175,22 +191,28 @@ public class Pagamento extends JFrame implements ActionListener{
                 JOptionPane.showMessageDialog(null, "Existe um ou mais campos vazios!");
 
            }else{
-
-                
-                
+                            
                 for(Registro r : RegistroListAtt){
+                        
+                    System.out.println(RegistroListAtt.size());
                     
+                    Date agora = new Date();
+                    DateFormat mostradata;
+                    mostradata = DateFormat.getDateInstance(DateFormat.SHORT);
+                    String data = mostradata.format(agora);
                     
-                    String sql = "insert into registro (Pedidos, Preco, Pagamento, Data_Registrada) values (?, ?, ?, NOW());";
+                    String sql = "insert into registro (Pedidos, Preco, Quantidade, Total, Pagamento, Data_Registrada) values (?, ?, ?, ?, ?, ?);";
                 
                     PreparedStatement stmt = c.conn.prepareStatement(sql);
                     
-
                     try {
 
                             stmt.setString(1, r.getNOME());
-                            stmt.setString(2, String.valueOf(r.getPRECO()));
-                            stmt.setString(3, Forma_Pagamento);
+                            stmt.setFloat(2, r.getPRECO());
+                            stmt.setInt(3, r.getQUANTIDADE());
+                            stmt.setFloat(4, r.getPRECO() * r.getQUANTIDADE());
+                            stmt.setString(5, Forma_Pagamento);
+                            stmt.setString(6, data);
                                          
 
                     } catch (SQLException ex) {
@@ -207,18 +229,21 @@ public class Pagamento extends JFrame implements ActionListener{
                
                 }
                 
+                
+                
             }  
             
             
             
-            JOptionPane.showMessageDialog(null, "Produto cadatrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Compra finalizada!");
             
             dispose();
      
         
     }
-     
     
+    
+  
     public static void main(String [] args){
         
         //new Pagamento();

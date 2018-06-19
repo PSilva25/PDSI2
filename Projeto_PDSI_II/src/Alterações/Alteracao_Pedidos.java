@@ -2,7 +2,7 @@
 package Alterações;
 
 import Cadastros.*;
-import Backgrounds.BG_Alteracao;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
 import java.awt.Color;
@@ -11,53 +11,40 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Menu;
-import Listagem.Listagem_Massas;
-import Listagem.Listagem_Pedidos;
+
 
 
 public class Alteracao_Pedidos extends JFrame implements ActionListener {
     
     int Id = 0;
     
-     String[]botoes = {"SIM", "NAO"};
+    String[]botoes = {"SIM", "NAO"};
     
     JButton Cancelar = new JButton("Cancelar");
     JButton Alterar = new JButton("Alterar");
 
     Menu dados_pedidos = new Menu();
-
-    
+   
     JTextField Pega_Nome_Pedido = new JTextField();
     JTextField Pega_Preco = new JTextField();
-    
-
+   
     DAO c = new DAO();
-
+   
     
     public Alteracao_Pedidos(int ID) throws SQLException  {
         
         this.Id = ID;
         
         ArmazenaDados(Id);
-        
-        
+               
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
-
-  
-        
+       
         JLabel Pedido = new JLabel("Nome do Pedido:");
         Pega_Nome_Pedido.setBounds(285, 225, 210, 30);
         Pedido.setBounds(160, 220, 130, 40);
@@ -66,9 +53,6 @@ public class Alteracao_Pedidos extends JFrame implements ActionListener {
         Pega_Nome_Pedido.setText(dados_pedidos.getLanche());
         add(Pega_Nome_Pedido);
         add(Pedido);
-        
-        
-                
                 
         JLabel Preco = new JLabel("Preço por Porção:");
         Pega_Preco.setBounds(780, 225, 100, 30);
@@ -79,21 +63,18 @@ public class Alteracao_Pedidos extends JFrame implements ActionListener {
         add(Pega_Preco);
         add(Preco);
         
-        
         Cancelar.setBorder(new Borda_Redonda(7));
         Cancelar.setBounds(130, 430, 160, 40);
         Cancelar.addActionListener(this);
         Cancelar.setFont(fonte);
         add(Cancelar);
-        
-        
+                
         Alterar.setBorder(new Borda_Redonda(7));
         Alterar.setBounds(808, 430, 160, 40);
         Alterar.addActionListener(this);
         Alterar.setFont(fonte);
         add(Alterar);
-
-  
+ 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_Alteracao());
@@ -103,8 +84,7 @@ public class Alteracao_Pedidos extends JFrame implements ActionListener {
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-
-    
+  
     }
     
     
@@ -114,34 +94,35 @@ public class Alteracao_Pedidos extends JFrame implements ActionListener {
           
             try {
                 
-                      int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
-           
-            if(botoes[opcao].equals("SIM")){
-            
-                Atualiza(Id);
-                
-                new Listagem_Pedidos();
-            
-                
-            }else{
-                
-            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
-            
-            new Listagem_Pedidos();
-            
-            }
+                int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+
+                if(botoes[opcao].equals("SIM")){
+
+                    Atualiza(Id);
+                    dispose();
+                    new Listagem_Pedidos();
+
+                }else{
+
+                    JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+                    dispose();
+                    new Listagem_Pedidos();
+
+                }
              
             } catch (SQLException ex) {
             
                 Logger.getLogger(Alteracao_Estoque_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
             
             }
-        } if (e.getSource() == Cancelar) {
+            
+        }else if (e.getSource() == Cancelar) {
 
             dispose();
             new Listagem_Pedidos();
-     } 
+     
+        } 
+    
     }
     
     
@@ -149,23 +130,21 @@ public class Alteracao_Pedidos extends JFrame implements ActionListener {
 
         c.conexao();
                
-        c.executaSQL("select * from menu where ID_Lanche = " + ID);
+        c.executaSQL("select * from cardapio where ID_Lanche = " + ID);
    
         try {
 
             c.rs.first();                   
                     
             dados_pedidos.setLanche(c.rs.getString("Nome"));
-            dados_pedidos.setPreco((c.rs.getFloat("Preco")));
-           
+            dados_pedidos.setPreco((c.rs.getFloat("Preco")));       
                                         
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }             
-        
-    
+           
     }
     
    
@@ -176,7 +155,7 @@ public class Alteracao_Pedidos extends JFrame implements ActionListener {
         dados_pedidos.setLanche(Pega_Nome_Pedido.getText());       
         dados_pedidos.setPreco(Float.parseFloat(Pega_Preco.getText()));
               
-        String sql = "UPDATE menu SET Nome = ?,Preco = ? where ID_Lanche = '" + x + "'";
+        String sql = "UPDATE cardapio SET Nome = ?,Preco = ? where ID_Lanche = '" + x + "'";
 
         try {
 

@@ -8,13 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import Principal.Cadastro_de_Produtos;
-//import Principal.Cadastro_de_Produtos;
 
-/**
- *
- * @author Jonycássio Almondes
- */
+
 public class DAO {
     
     public Statement stm;
@@ -24,9 +19,8 @@ public class DAO {
     private String usuario = "root";
     private String senha = "";
     public Connection conn;
-    
-    
-    
+       
+
     public void conexao(){
          
         try {
@@ -59,7 +53,9 @@ public class DAO {
         } catch (SQLException ex) {
        
             //Logger.getLogger(Cadastro_de_Produtos.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
+    
     }
     
 }

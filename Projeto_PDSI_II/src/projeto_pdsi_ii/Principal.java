@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projeto_pdsi_ii;
 
 import java.util.Date;
@@ -30,13 +26,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
-/**
- *
- * @author Jonycássio
- */
 public class Principal extends JFrame implements ActionListener{
-    
-    
+        
     Font fonte = new Font("SansSerif", Font.BOLD, 15);  
     
     JMenuBar Barra = new JMenuBar();
@@ -50,8 +41,7 @@ public class Principal extends JFrame implements ActionListener{
     JMenu MenuItem2_3 = new JMenu("Alimentos");
     JMenuItem Item2_3_1 = new JMenuItem("Frios");
     JMenuItem Item2_3_2 = new JMenuItem("Massas");
-    JMenuItem Item2_3_3 = new JMenuItem("Vegetais");
-      
+    JMenuItem Item2_3_3 = new JMenuItem("Vegetais");      
     
     JMenu Menu3 = new JMenu("Listagem");
     JMenuItem Item3_1 = new JMenuItem("Cardápio");
@@ -60,12 +50,11 @@ public class Principal extends JFrame implements ActionListener{
     JMenuItem Item3_3_1 = new JMenuItem("Frios");
     JMenuItem Item3_3_2 = new JMenuItem("Massas");
     JMenuItem Item3_3_3 = new JMenuItem("Vegetais");
-    
-    
-    
+       
     JMenu Menu4 = new JMenu("Caixa");
     JMenuItem Item4_1 = new JMenuItem("Abrir Caixa");
     JMenuItem Item4_2 = new JMenuItem("Fechar Caixa");
+    JMenuItem Item4_3 = new JMenuItem("Histórico");
     
     JMenu Menu5 = new JMenu("Sobre");
    
@@ -74,9 +63,7 @@ public class Principal extends JFrame implements ActionListener{
     DAO con = new DAO();
     
     public Principal(){
-        
-        
-        
+               
         Item1_1.setFont(fonte);
         Item1_1.addActionListener(this);
         
@@ -116,15 +103,16 @@ public class Principal extends JFrame implements ActionListener{
         Item4_2.setFont(fonte);
         Item4_2.addActionListener(this);
         
+        Item4_3.setFont(fonte);
+        Item4_3.addActionListener(this);
+        
         MenuItem2_3.setFont(fonte);
         MenuItem3_3.setFont(fonte);
-        
-        
-        
+              
         Menu1.add(Item1_1);
         Menu1.setFont(fonte);
         
-        ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         Menu2.add(Item2_1);
         Menu2.add(Item2_2);
@@ -136,7 +124,7 @@ public class Principal extends JFrame implements ActionListener{
         Menu2.add(MenuItem2_3);
         Menu2.setFont(fonte);
         
-        ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         Menu3.add(Item3_1);
         Menu3.add(Item3_2);
@@ -148,13 +136,13 @@ public class Principal extends JFrame implements ActionListener{
         Menu3.add(MenuItem3_3);
         Menu3.setFont(fonte);
         
-        ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         Menu4.add(Item4_1);
         Menu4.add(Item4_2);
+        Menu4.add(Item4_3);
         Menu4.setFont(fonte);
-        
-    
+           
         Barra.setBounds(0,0,1100,40);
         add(Barra);
         
@@ -164,23 +152,11 @@ public class Principal extends JFrame implements ActionListener{
         Barra.add(Menu4);
        
         Barra.setBackground(Color.GREEN);
+               
+        //caixa.setBounds(10, 450, 15, 15);
         
-        
-        caixa.setBounds(10, 450, 15, 15);
-        
-        if(Status() == 1){
-            
-            caixa.setBackground(Color.GREEN);
-        
-        }else{
-            
-            caixa.setBackground(Color.RED);
-        
-        }
-        
-        add(caixa);
-        
-        
+        //add(caixa);
+               
         add(new BG_Principal());
         setBackground(Color.yellow);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -190,25 +166,24 @@ public class Principal extends JFrame implements ActionListener{
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-              
-        
+                     
     }
     
     
-    public int Status(){
+    public int Status_abertura(){
         
-        int status = 0;
+        int status = -1;
         
         Date agora = new Date();
         DateFormat mostradata;
         mostradata = DateFormat.getDateInstance(DateFormat.SHORT);
-        String x = mostradata.format(agora);
+        String data_atual = mostradata.format(agora);
         
         ArrayList<String> PegaData = new ArrayList<>();
         
         con.conexao();
 
-        con.executaSQL("select * from abertura_caixa");
+        con.executaSQL("select * from caixa_abertura");
    
         try {
 
@@ -225,11 +200,10 @@ public class Principal extends JFrame implements ActionListener{
         } catch (SQLException ex) {
 
         }
-        
-        
+               
         for(int i = 0; i < PegaData.size(); i++){
             
-            if(x.equals(PegaData.get(i))){
+            if(data_atual.equals(PegaData.get(i))){
                 
                 status = 1;
                 break;
@@ -243,11 +217,58 @@ public class Principal extends JFrame implements ActionListener{
     }
      
     
+    public int Status_fechamento(){
+        
+        int status = -1;
+        
+        Date agora = new Date();
+        DateFormat mostradata;
+        mostradata = DateFormat.getDateInstance(DateFormat.SHORT);
+        String data_atual = mostradata.format(agora);
+        
+        ArrayList<String> PegaData = new ArrayList<>();
+        
+        con.conexao();
+
+        con.executaSQL("select * from caixa_fechamento");
+   
+        try {
+
+            con.rs.first();
+                   
+            do{     
+               
+                String data = con.rs.getString("data_fechamento");
+                
+                PegaData.add(data);
+  
+            }while (con.rs.next());
+                        
+        } catch (SQLException ex) {
+
+        }
+               
+        for(int i = 0; i < PegaData.size(); i++){
+            
+            if(data_atual.equals(PegaData.get(i))){
+                
+                status = 1;
+                break;
+                
+            }
+            
+        }
+        
+        return status;  
+           
+    }
+        
+              
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource() == Item1_1) new Compra();
         
-        if(e.getSource() == Item2_1) new Cadastro_Pedidos();
+        if(e.getSource() == Item2_1) new Cadastro_Menu();
         if(e.getSource() == Item2_2) new Status_Login(1);
         if(e.getSource() == Item2_3_1) new Status_Login(2);
         if(e.getSource() == Item2_3_2) new Status_Login(3);
@@ -259,10 +280,29 @@ public class Principal extends JFrame implements ActionListener{
         if(e.getSource() == Item3_3_2) new Status_Login(7);
         if(e.getSource() == Item3_3_3) new Status_Login(8);
         
-        if(e.getSource() == Item4_1) new abrir_caixa();
-        if(e.getSource() == Item4_2) new fechar_caixa();
+        if(e.getSource() == Item4_1){
+            
+            if(Status_abertura()!= 1){
+                new Status_Login(9);
+            }else{
+                JOptionPane.showMessageDialog(null, "ABERTURA DE CAIXA JÁ EFETUADO NA DATA ATUAL!");
+            }
+            
+        }
         
-       
+        
+        if(e.getSource() == Item4_2){
+            
+            if(Status_fechamento()!= 1){
+                new Status_Login(10);
+            }else{
+                JOptionPane.showMessageDialog(null, "FECHAMENTO DE CAIXA JÁ EFETUADO NA DATA ATUAL!");
+            }
+            
+        }
+        
+        if(e.getSource() == Item4_3) new Status_Login(11);
+               
     }
      
 

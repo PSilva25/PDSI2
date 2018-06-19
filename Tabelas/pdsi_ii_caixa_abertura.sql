@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `abertura_caixa`
+-- Table structure for table `caixa_abertura`
 --
 
-DROP TABLE IF EXISTS `abertura_caixa`;
+DROP TABLE IF EXISTS `caixa_abertura`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `abertura_caixa` (
+CREATE TABLE `caixa_abertura` (
   `ID_Abertura` int(11) NOT NULL AUTO_INCREMENT,
   `Descricao` char(100) DEFAULT NULL,
   `Valor_abertura` float DEFAULT NULL,
   `Data_abertura` char(100) DEFAULT NULL,
   `Hora_Abertura` char(100) DEFAULT NULL,
   PRIMARY KEY (`ID_Abertura`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `abertura_caixa`
+-- Dumping data for table `caixa_abertura`
 --
 
-LOCK TABLES `abertura_caixa` WRITE;
-/*!40000 ALTER TABLE `abertura_caixa` DISABLE KEYS */;
-INSERT INTO `abertura_caixa` VALUES (1,'pra troco',100,'10/06/18','17:48:14'),(21,'q',1,'09/06/18','19:07:05'),(20,'s',1,'09/06/18','18:59:49'),(19,'2',1,'09/06/18','18:58:48'),(18,'w',1,'09/06/18','18:56:37'),(22,'ss',100,'09/06/18','20:41:17');
-/*!40000 ALTER TABLE `abertura_caixa` ENABLE KEYS */;
+LOCK TABLES `caixa_abertura` WRITE;
+/*!40000 ALTER TABLE `caixa_abertura` DISABLE KEYS */;
+INSERT INTO `caixa_abertura` VALUES (1,'Troco',100,'18/06/18','19:43:47');
+/*!40000 ALTER TABLE `caixa_abertura` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-12 22:14:23
+-- Dump completed on 2018-06-18 20:05:31

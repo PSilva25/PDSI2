@@ -16,27 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `frios_menu`
+-- Table structure for table `cardapio_ingredientes_frios`
 --
 
-DROP TABLE IF EXISTS `frios_menu`;
+DROP TABLE IF EXISTS `cardapio_ingredientes_frios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `frios_menu` (
-  `ID_frios` int(11) NOT NULL,
-  `Nome` varchar(50) NOT NULL,
-  `Quant_porcao` float DEFAULT NULL,
-  PRIMARY KEY (`ID_frios`)
+CREATE TABLE `cardapio_ingredientes_frios` (
+  `Id` int(11) DEFAULT NULL,
+  `Frio` varchar(100) DEFAULT NULL,
+  `Quantidade` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `frios_menu`
+-- Dumping data for table `cardapio_ingredientes_frios`
 --
 
-LOCK TABLES `frios_menu` WRITE;
-/*!40000 ALTER TABLE `frios_menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `frios_menu` ENABLE KEYS */;
+LOCK TABLES `cardapio_ingredientes_frios` WRITE;
+/*!40000 ALTER TABLE `cardapio_ingredientes_frios` DISABLE KEYS */;
+INSERT INTO `cardapio_ingredientes_frios` VALUES (2,'Peito de Peru',1),(2,'Ovo',1),(2,'Hamburguer',1);
+/*!40000 ALTER TABLE `cardapio_ingredientes_frios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-12 22:14:22
+-- Dump completed on 2018-06-18 20:05:31

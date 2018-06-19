@@ -1,30 +1,20 @@
 
 package Cadastros;
 
-import Backgrounds.BG_CadAlimentos_Frios;
+import Cadastros.*;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Cadastro_Alimento;
-import projeto_pdsi_ii.Login;
-import projeto_pdsi_ii.Principal;
 
 
 public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
@@ -36,24 +26,17 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
     
     JTextField Pega_Nome_Fornecedor = new JTextField();
     JTextField Pega_Preco = new JTextField();
-    JTextField Pega_Total_Compra = new JTextField();
-    JTextField Pega_QuantidadeKG = new JTextField();
-    JTextField Pega_Unidade_porcao = new JTextField();
-    JTextField Pega_PT = new JTextField();
-
+    JTextField Pega_Quantidade = new JTextField();
     
-    JComboBox<String> Pega_Frios = new JComboBox<>();
-    
-    
+    JTextField Pega_Frios = new JTextField();
+       
     DAO c = new DAO();
-
+   
     
     public Cadastro_Alimentos_Frios() {
-        
-        
+              
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
-
-           
+          
         JLabel Frios = new JLabel("Frios: ");
         Pega_Frios.setBounds(230, 185, 210, 30);
         Frios.setBounds(180, 180, 130, 40);
@@ -62,18 +45,7 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
         Frios.setFont(fonte);
         add(Pega_Frios);
         add(Frios); 
-        
-           
-        Pega_Frios.addItem("");
-        Pega_Frios.addItem("peito de frango");
-        Pega_Frios.addItem("peito de peru");
-        Pega_Frios.addItem("frango");
-        Pega_Frios.addItem("salsicha");
-        Pega_Frios.addItem("Ovo");
-          
-            
-        
-        
+                      
         JLabel Fornecedor = new JLabel("Fornecedor:");
         Pega_Nome_Fornecedor.setBounds(275, 265, 210, 30);
         Fornecedor.setBounds(180, 260, 130, 40);
@@ -81,69 +53,35 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
         Fornecedor.setFont(fonte);
         add(Pega_Nome_Fornecedor);
         add(Fornecedor);
-        
-        
-                
-                
-        JLabel Quantidade = new JLabel("Quantidade(KG):");
-        Pega_QuantidadeKG.setBounds(620, 195, 100, 30);
-        Quantidade.setBounds(610, 160, 130, 40);
-        Pega_QuantidadeKG.setFont(fonte);
+                       
+        JLabel Quantidade = new JLabel("Quantidade:");
+        Pega_Quantidade.setBounds(720, 195, 100, 30);
+        Quantidade.setBounds(720, 160, 130, 40);
+        Pega_Quantidade.setFont(fonte);
         Quantidade.setFont(fonte);
-        add(Pega_QuantidadeKG);
+        add(Pega_Quantidade);
         add(Quantidade);
-        
-       
-    
-        JLabel UKG = new JLabel("Preço por Kg:");
-        Pega_Preco.setBounds(820, 195, 100, 30);
-        UKG.setBounds(820, 160, 130, 40);
+           
+        JLabel UKG = new JLabel("Preço pde Compra:");
+        Pega_Preco.setBounds(720, 275, 100, 30);
+        UKG.setBounds(720, 240, 140, 40);
         Pega_Preco.setFont(fonte);
         UKG.setFont(fonte);
         add(Pega_Preco);
         add(UKG);
-        
-        
-        
-        JLabel UP = new JLabel("Quant. por porção:");
-        Pega_Unidade_porcao.setBounds(625, 275, 100, 30);
-        UP.setBounds(610, 240, 160, 40);
-        Pega_Unidade_porcao.setFont(fonte);
-        UP.setFont(fonte);
-        add(Pega_Unidade_porcao);
-        add(UP);
-        
-         
-        JLabel PT = new JLabel("Total Compra:");
-        Pega_PT.setBounds(820, 275, 100, 30);
-        PT.setBounds(820, 240, 100, 40);
-        Pega_PT.setEditable(false);   
-        Pega_PT.setFont(fonte);
-        PT.setFont(fonte);
-        add(Pega_PT);
-        add(PT);
-                
-                
-                
-        
-        
-        
-        
+                       
         Voltar.setBorder(new Borda_Redonda(7));
         Voltar.setBounds(130, 430, 160, 40);
         Voltar.addActionListener(this);
         Voltar.setFont(fonte);
         add(Voltar);
-        
-        
+              
         Adicionar.setBorder(new Borda_Redonda(7));
         Adicionar.setBounds(808, 430, 160, 40);
         Adicionar.addActionListener(this);
         Adicionar.setFont(fonte);
         add(Adicionar);
 
-  
-        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_CadAlimentos_Frios());
@@ -153,29 +91,20 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-
-    
+   
     }
+    
     
     public void preenche(){
         
-         dados_AL.setTipo((String) Pega_Frios.getSelectedItem());
-            dados_AL.setFornecedor(Pega_Nome_Fornecedor.getText());
-            dados_AL.setFornecedor(Pega_QuantidadeKG.getText());
-            dados_AL.setQuantT(Float.parseFloat(Pega_QuantidadeKG.getText()));
-            dados_AL.setPreco(Float.parseFloat(Pega_Preco.getText()));
-            float x = Float.parseFloat(Pega_Preco.getText())*Float.parseFloat(Pega_QuantidadeKG.getText());  
-            Pega_PT.setText(String.valueOf(x));
-            dados_AL.setPreco_Total(Float.parseFloat(Pega_Preco.getText())*Float.parseFloat(Pega_QuantidadeKG.getText()));
-            
-            dados_AL.setUniPorcao(Float.parseFloat(Pega_Unidade_porcao.getText()));
-            
+        dados_AL.setTipo((String) Pega_Frios.getText());
+        dados_AL.setFornecedor(Pega_Nome_Fornecedor.getText());
+        dados_AL.setQuantT(Float.parseFloat(Pega_Quantidade.getText()));
+        dados_AL.setPreco(Float.parseFloat(Pega_Preco.getText()));
        
-
-       
-       
-         
     }
+   
+    
     public void actionPerformed(ActionEvent e) {
     
         if (e.getSource() == Adicionar) {
@@ -195,28 +124,25 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
             dispose();
            
         }
+        
     }
     
-        
-       
- 
+
     public void ArmazenaDados() throws SQLException {
 
- 
         c.conexao();
-        String sql = "insert into cad_alimentos (Tipo, Fornecedor,QuantidadeT, Preco_de_compra, preco_total, Quantidade_kg_porcao) values (?,?,?,?,?,?);";
+        
+        String sql = "insert into estoque_frios (Tipo, Fornecedor, Quantidade, Preco_de_compra) values (?,?,?,?);";
 
         PreparedStatement stmt = c.conn.prepareStatement(sql);
-        
-        
+              
         try {
                 
             stmt.setString(1,dados_AL.getTipo());
             stmt.setString(2,dados_AL.getFornecedor());
             stmt.setFloat(3,dados_AL.getQuantT());
             stmt.setFloat(4,dados_AL.getPreco());
-            stmt.setFloat(5,dados_AL.getPreco_Total());
-            stmt.setFloat(6,dados_AL.getUniPorcao());
+           
         
         } catch (SQLException ex) {
 
@@ -225,11 +151,16 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
             Logger.getLogger(Cadastro_de_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
                        
        } 
-   
-        
-        stmt.execute();
+           
+       stmt.execute();
 
-        stmt.close();
+       stmt.close();
+       
+       
+       Pega_Frios.setText("");
+       Pega_Nome_Fornecedor.setText("");
+       Pega_Quantidade.setText("");
+       Pega_Preco.setText("");
         
     }
 

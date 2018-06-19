@@ -111,13 +111,10 @@ public class abrir_caixa extends JFrame implements ActionListener{
     }
     
      public void preenche(){
-    
-            
-            
-            dado_C.setDescricao(Pega_Descricao.getText());
-            dado_C.setValor(Float.parseFloat(Pega_Valor.getText()));
+          
+        dado_C.setDescricao(Pega_Descricao.getText());
+        dado_C.setValor(Float.parseFloat(Pega_Valor.getText()));
            
-         System.out.println(dado_C.getDescricao()+""+""+dado_C.getValor());
     }
     
     
@@ -129,8 +126,7 @@ public class abrir_caixa extends JFrame implements ActionListener{
             
                 preenche();
                 ArmazenaDados();
-                new Principal();
-                new Principal().dispose();
+                dispose();
             
             } catch (SQLException ex) {
             
@@ -162,7 +158,7 @@ public class abrir_caixa extends JFrame implements ActionListener{
         System.out.println(dataFormatada);
         
         
-        String sql = "insert into abertura_caixa (Descricao,Valor_abertura,Data_abertura,Hora_Abertura) values (?,?,?,?);";           
+        String sql = "insert into caixa_abertura (Descricao, Valor_abertura, Data_abertura, Hora_Abertura) values (?,?,?,?);";           
             
         PreparedStatement stmt = c.conn.prepareStatement(sql);
 

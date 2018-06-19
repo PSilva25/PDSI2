@@ -7,6 +7,10 @@ public class Abertura_Caixa {
     float valor;
     int abc;
 
+    public Abertura_Caixa() {
+        
+    }
+   
     public String getDescricao() {
         return descricao;
     }
