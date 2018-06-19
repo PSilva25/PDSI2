@@ -23,6 +23,9 @@ public class Ingredientes extends JFrame implements ActionListener{
     ArrayList<Componentes_Pedido> Dados_Massas = new ArrayList<Componentes_Pedido>();
     ArrayList<Componentes_Pedido> RegistroList = new ArrayList<Componentes_Pedido>();
     
+    Font fonte = new Font("SansSerif", Font.BOLD, 17);
+    Font fonte_botoes = new Font("SansSerif", Font.BOLD, 17);  
+    
     ArrayList<String> LFrios = new ArrayList<>();
     ArrayList<String> LMassas = new ArrayList<>();
    
@@ -54,18 +57,15 @@ public class Ingredientes extends JFrame implements ActionListener{
     public Ingredientes(int id) {
         
         this.ID = id;
-        
-        Font fonte = new Font("SansSerif", Font.BOLD, 17);
-        Font fonte_botoes = new Font("SansSerif", Font.BOLD, 17);          
-               
+                      
         Frios.setBackground(Color.decode("#009fe3"));
-        Frios.setBounds(200, 60, 100, 30);
+        Frios.setBounds(80, 60, 100, 30);
         Frios.addActionListener(this);
         Frios.setFont(fonte);
         add(Frios);
               
         Massas.setBackground(Color.decode("#009fe3"));
-        Massas.setBounds(350, 60, 100, 30);
+        Massas.setBounds(230, 60, 100, 30);
         Massas.addActionListener(this);
         Massas.setFont(fonte);
         add(Massas);
@@ -73,7 +73,7 @@ public class Ingredientes extends JFrame implements ActionListener{
         group.add(Frios);
         group.add(Massas);      
         
-        Representa.setBounds(200, 100, 150, 30);
+        Representa.setBounds(80, 105, 200, 30);
         Representa.setFont(fonte);
         
         add(Representa);
@@ -81,16 +81,16 @@ public class Ingredientes extends JFrame implements ActionListener{
         add(Pega_Massas);
          
         JLabel Quantidade = new JLabel("Quantidade:");
-        Pega_Quantidade.setBounds(300, 155, 70, 30);
-        Quantidade.setBounds(200, 150, 130, 40);
+        Pega_Quantidade.setBounds(180, 155, 70, 30);
+        Quantidade.setBounds(80, 150, 130, 40);
         Pega_Quantidade.setFont(fonte);
         Quantidade.setFont(fonte);
         add(Pega_Quantidade);
         add(Quantidade);
                 
         JLabel N = new JLabel("Tipo:");
-        Mostra_Tipo.setBounds(40, 300, 200, 160);
-        N.setBounds(40, 270, 130, 40);
+        Mostra_Tipo.setBounds(40, 280, 200, 160);
+        N.setBounds(40, 240, 130, 40);
         Mostra_Tipo.setEditable(false);        
         Mostra_Tipo.setFont(fonte);
         N.setFont(fonte);
@@ -98,8 +98,8 @@ public class Ingredientes extends JFrame implements ActionListener{
         add(N);
                
         JLabel P = new JLabel("Nome:");
-        Mostra_Nome.setBounds(240, 300, 200, 160);
-        P.setBounds(240, 270, 130, 40);
+        Mostra_Nome.setBounds(240, 280, 200, 160);
+        P.setBounds(240, 240, 130, 40);
         Mostra_Nome.setEditable(false);       
         Mostra_Nome.setFont(fonte);
         P.setFont(fonte);
@@ -107,8 +107,8 @@ public class Ingredientes extends JFrame implements ActionListener{
         add(P);
                
         JLabel Q = new JLabel("Quantidade:");
-        Mostra_Quantidade.setBounds(440, 300, 115, 160);
-        Q.setBounds(440, 270, 130, 40);
+        Mostra_Quantidade.setBounds(440, 280, 115, 160);
+        Q.setBounds(440, 240, 130, 40);
         Mostra_Quantidade.setEditable(false);       
         Mostra_Quantidade.setFont(fonte);
         Q.setFont(fonte);
@@ -116,7 +116,7 @@ public class Ingredientes extends JFrame implements ActionListener{
         add(Q);
                
         Adicionar.setBorder(new Borda_Redonda(7));
-        Adicionar.setBounds(395, 210, 160, 40);
+        Adicionar.setBounds(380, 150, 160, 40);
         Adicionar.addActionListener(this);
         Adicionar.setFont(fonte_botoes);
         add(Adicionar);
@@ -148,8 +148,9 @@ public class Ingredientes extends JFrame implements ActionListener{
      
     public void Posiciona_Frios() {
 
-        Pega_Frios.setBounds(200, 100, 150, 30);
+        Pega_Frios.setBounds(80, 105, 200, 30);
         Pega_Frios.setEditable(false);
+        Pega_Frios.setFont(fonte);
         Pega_Frios.setSelectedIndex(-1);
 
     }
@@ -157,8 +158,9 @@ public class Ingredientes extends JFrame implements ActionListener{
 
     public void Posiciona_Massas() {
 
-        Pega_Massas.setBounds(200, 100, 150, 30);
+        Pega_Massas.setBounds(80, 105, 200, 30);
         Pega_Massas.setEditable(false);
+        Pega_Massas.setFont(fonte);
         Pega_Massas.setSelectedIndex(-1);
 
     }
@@ -400,7 +402,7 @@ public class Ingredientes extends JFrame implements ActionListener{
     
     public static void main(String[]args){
         
-        new Ingredientes(1);
+        //new Ingredientes(1);
         
     }
 

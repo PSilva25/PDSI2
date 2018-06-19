@@ -100,21 +100,25 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
 
         Pequeno.setBounds(650, 180, 80, 30);
         Pequeno.addActionListener(this);
+        Pequeno.setBackground(Color.decode("#009fe3"));
         Pequeno.setFont(fonte);
         add(Pequeno);
 
         Medio.setBounds(730, 180, 80, 30);
         Medio.addActionListener(this);
+        Medio.setBackground(Color.decode("#009fe3"));
         Medio.setFont(fonte);
         add(Medio);
 
         Grande1.setBounds(810, 180, 54, 30);
         Grande1.addActionListener(this);
+        Grande1.setBackground(Color.decode("#009fe3"));
         Grande1.setFont(fonte);
         add(Grande1);
 
         Grande2.setBounds(860, 180, 80, 30);
         Grande2.addActionListener(this);
+        Grande2.setBackground(Color.decode("#009fe3"));
         Grande2.setFont(fonte);
         add(Grande2);
 
@@ -275,7 +279,7 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
             stmt.setString(3, dados_bebida.getFornecedor());
             stmt.setString(4, dados_bebida.getVolume());
             stmt.setInt(5,dados_bebida.getQuantidade());
-            stmt.setDouble(6, dados_bebida.getPreco());
+            stmt.setFloat(6, dados_bebida.getPreco());
                                  
             stmt.executeUpdate();
 
