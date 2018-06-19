@@ -199,7 +199,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
             stmt.setString(3,dados_bebida.getFornecedor());
             stmt.setString(4,dados_bebida.getVolume());
             stmt.setInt(5,dados_bebida.getQuantidade());
-            stmt.setFloat(6,dados_bebida.getPreco());
+            stmt.setDouble(6,dados_bebida.getPreco());
         
         } catch (SQLException ex) {
 
