@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     BebidasTest.class,
     FriosTest.class,
+    VegetaisTest.class,
     //DAOVendaTest.class
 })
 
