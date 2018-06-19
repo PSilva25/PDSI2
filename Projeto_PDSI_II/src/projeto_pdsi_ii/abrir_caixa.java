@@ -134,9 +134,12 @@ public class abrir_caixa extends JFrame implements ActionListener{
             
             }
             
-        }else if(e.getSource()== Cancelar);
-        
+        }else if(e.getSource()== Cancelar){
+            
             dispose();
+            
+        }        
+    
     }
     
     

@@ -180,19 +180,19 @@ public class Compra extends JFrame implements ActionListener {
         add(Pequeno);
 
         Medio.setBackground(Color.decode("#009fe3"));
-        Medio.setBounds(680, 220, 80, 30);
+        Medio.setBounds(690, 220, 80, 30);
         Medio.addActionListener(this);
         Medio.setFont(fonte);
         add(Medio);
 
         Grande1.setBackground(Color.decode("#009fe3"));
-        Grande1.setBounds(760, 220, 54, 30);
+        Grande1.setBounds(785, 220, 54, 30);
         Grande1.addActionListener(this);
         Grande1.setFont(fonte);
         add(Grande1);
 
         Grande2.setBackground(Color.decode("#009fe3"));
-        Grande2.setBounds(814, 220, 80, 30);
+        Grande2.setBounds(854, 220, 80, 30);
         Grande2.addActionListener(this);
         Grande2.setFont(fonte);
         add(Grande2);

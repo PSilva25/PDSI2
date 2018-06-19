@@ -32,10 +32,10 @@ public class Principal extends JFrame implements ActionListener{
     
     JMenuBar Barra = new JMenuBar();
     
-    JMenu Menu1 = new JMenu("Venda");
+    JMenu Menu1 = new JMenu("VENDA");
     JMenuItem Item1_1 = new JMenuItem("Efetuar Venda");
     
-    JMenu Menu2 = new JMenu("Cadastros");
+    JMenu Menu2 = new JMenu("CADASTROS");
     JMenuItem Item2_1 = new JMenuItem("Cardápio");
     JMenuItem Item2_2 = new JMenuItem("Bebidas");
     JMenu MenuItem2_3 = new JMenu("Alimentos");
@@ -43,7 +43,7 @@ public class Principal extends JFrame implements ActionListener{
     JMenuItem Item2_3_2 = new JMenuItem("Massas");
     JMenuItem Item2_3_3 = new JMenuItem("Vegetais");      
     
-    JMenu Menu3 = new JMenu("Listagem");
+    JMenu Menu3 = new JMenu("LISTAGEM");
     JMenuItem Item3_1 = new JMenuItem("Cardápio");
     JMenuItem Item3_2 = new JMenuItem("Bebidas");
     JMenu MenuItem3_3 = new JMenu("Alimentos");
@@ -51,12 +51,10 @@ public class Principal extends JFrame implements ActionListener{
     JMenuItem Item3_3_2 = new JMenuItem("Massas");
     JMenuItem Item3_3_3 = new JMenuItem("Vegetais");
        
-    JMenu Menu4 = new JMenu("Caixa");
+    JMenu Menu4 = new JMenu("CAIXA");
     JMenuItem Item4_1 = new JMenuItem("Abrir Caixa");
     JMenuItem Item4_2 = new JMenuItem("Fechar Caixa");
     JMenuItem Item4_3 = new JMenuItem("Histórico");
-    
-    JMenu Menu5 = new JMenu("Sobre");
    
     JButton caixa = new JButton();
     
@@ -151,7 +149,7 @@ public class Principal extends JFrame implements ActionListener{
         Barra.add(Menu3);
         Barra.add(Menu4);
        
-        Barra.setBackground(Color.GREEN);
+        Barra.setBackground(Color.decode("#009fe3"));
                
         //caixa.setBounds(10, 450, 15, 15);
         
@@ -266,7 +264,20 @@ public class Principal extends JFrame implements ActionListener{
               
     public void actionPerformed(ActionEvent e) {
         
-        if(e.getSource() == Item1_1) new Compra();
+        
+        
+        if(e.getSource() == Item1_1){
+            
+            if(Status_fechamento()!= 1){
+                
+                new Compra();
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "CAIXA FECHADO! NAO É POSSIVEL EFETUAR NENHUMA VENDA !");
+            }
+            
+        }
+        
         
         if(e.getSource() == Item2_1) new Cadastro_Menu();
         if(e.getSource() == Item2_2) new Status_Login(1);
@@ -304,6 +315,11 @@ public class Principal extends JFrame implements ActionListener{
         if(e.getSource() == Item4_3) new Status_Login(11);
                
     }
+    
+    
+    
+    
+    
      
 
     public static void main(String[]args) {

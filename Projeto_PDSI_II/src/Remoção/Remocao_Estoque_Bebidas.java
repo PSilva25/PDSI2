@@ -3,7 +3,6 @@ package Remoção;
 
 
 import Cadastros.*;
-import Banco_de_Dados.DAOFrios;
 import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
@@ -50,7 +49,6 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
     JTextArea Mostra_Nome = new JTextArea();
       
     DAO c = new DAO();
-    DAOFrios f = new DAOFrios();
 
     int Id;
     
@@ -159,7 +157,7 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
            
             if(botoes[opcao].equals("SIM")){
             
-                f.deletar(Id);
+                Remove_dados(Id);
                 
                 dispose();
                 new Listagem_Bebidas();
@@ -207,6 +205,30 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         } 
     
     }
+    
+    
+    public void Remove_dados(int Id){
+        
+        String sql = "delete from estoque_bebidas where ID_Bebida='" + Id + "'";
+
+        try {
+
+            PreparedStatement stmt = c.conn.prepareStatement(sql);
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "DADO DELETADO!");
+
+        }catch (SQLException e1) {
+                
+            JOptionPane.showMessageDialog(null, e1);
+            
+        }
+
+        dispose();
+        
+    }
+   
     
     public static void main(String [] args){
         
