@@ -9,9 +9,9 @@ public class Cadastro_Alimento {
     private double Preco;
     private double Preco_Total;
     private double uniPorcaoKG;
-    
+
     public Cadastro_Alimento() {
-        
+
     }
 
     public Cadastro_Alimento(String tipo, String forn, double quant, double preco, double precoT, double umpoc) {
@@ -22,7 +22,7 @@ public class Cadastro_Alimento {
         this.Preco_Total = precoT;
         this.uniPorcaoKG = umpoc;
     }
-    
+
     public Cadastro_Alimento(int id, String tipo, String forn, double quant, double preco) {
         this.id = id;
         this.Tipo = tipo;
@@ -30,20 +30,19 @@ public class Cadastro_Alimento {
         this.QuantTKG = quant;
         this.Preco = preco;
     }
-    
-        public Cadastro_Alimento(String tipo, String forn, double quant, double preco) {
+
+    public Cadastro_Alimento(String tipo, String forn, double quant, double preco) {
         this.Tipo = tipo;
         this.Fornecedor = forn;
         this.QuantTKG = quant;
         this.Preco = preco;
     }
-    
-        
-    public int getID(){
+
+    public int getID() {
         return id;
     }
-    
-    public void setID(int id){
+
+    public void setID(int id) {
         this.id = id;
     }
 

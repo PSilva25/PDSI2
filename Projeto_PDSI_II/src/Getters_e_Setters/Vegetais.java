@@ -2,18 +2,38 @@ package Getters_e_Setters;
 
 public class Vegetais {
 
-  private String Tipo;
+    private int id;
+    private String Tipo;
     private String Fornecedor;
-    private float Quantidade;
-    private float Preco;
-    
-    
-    
+    private double Quantidade;
+    private double Preco;
+
     public Vegetais() {
-        
-        
+
     }
-  
+
+    public Vegetais(int id, String tipo, String forn, double quant, double preco) {
+        this.id = id;
+        this.Tipo = tipo;
+        this.Fornecedor = forn;
+        this.Quantidade = quant;
+        this.Preco = preco;
+    }
+    
+    public Vegetais(String tipo, String forn, double quant, double preco) {
+        this.Tipo = tipo;
+        this.Fornecedor = forn;
+        this.Quantidade = quant;
+        this.Preco = preco;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
+    }
 
     public String getTipo() {
         return Tipo;
@@ -31,7 +51,7 @@ public class Vegetais {
         this.Fornecedor = Fornecedor;
     }
 
-    public float getQuantidade() {
+    public double getQuantidade() {
         return Quantidade;
     }
 
@@ -39,16 +59,12 @@ public class Vegetais {
         this.Quantidade = Quantidade;
     }
 
-    public float getPreco() {
+    public double getPreco() {
         return Preco;
     }
 
     public void setPreco(float Precokg) {
         this.Preco = Precokg;
     }
-
-
-
-
 
 }

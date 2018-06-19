@@ -32,6 +32,7 @@ public class Remocao_Alimentos_Frios extends JFrame implements ActionListener {
     JTextField Pega_Frios = new JTextField();
 
     DAO con = new DAO();
+    DAOFrios f = new DAOFrios();
 
     public Remocao_Alimentos_Frios(int ID) throws SQLException {
 
@@ -114,7 +115,7 @@ public class Remocao_Alimentos_Frios extends JFrame implements ActionListener {
 
             if (botoes[opcao].equals("SIM")) {
 
-                Remove_dados(Id);
+                f.deletar(Id);
                 dispose();
                 new Listagem_Frios();
 

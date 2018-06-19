@@ -187,8 +187,8 @@ public class Alteracao_Alimentos_Vegetais extends JFrame implements ActionListen
 
             stmt.setString(1, dados_V.getTipo());
             stmt.setString(2, dados_V.getFornecedor());
-            stmt.setFloat(3, dados_V.getQuantidade());
-            stmt.setFloat(4, dados_V.getPreco());
+            stmt.setDouble(3, dados_V.getQuantidade());
+            stmt.setDouble(4, dados_V.getPreco());
                       
             stmt.executeUpdate();
 

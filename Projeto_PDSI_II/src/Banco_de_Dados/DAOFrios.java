@@ -102,7 +102,7 @@ public class DAOFrios {
         c.conexao();
         PreparedStatement stmt = null;
         ArrayList<Cadastro_Alimento> result = new ArrayList();
-        String str = "select * from estoque_bebidas";
+        String str = "select * from estoque_frios";
 
         try {
             stmt = c.conn.prepareStatement(str);
