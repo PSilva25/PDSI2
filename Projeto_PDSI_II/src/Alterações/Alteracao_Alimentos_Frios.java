@@ -189,8 +189,8 @@ public class Alteracao_Alimentos_Frios extends JFrame implements ActionListener 
 
             stmt.setString(1, dados_Frios.getTipo());
             stmt.setString(2, dados_Frios.getFornecedor());
-            stmt.setFloat(3, dados_Frios.getQuantT());
-            stmt.setFloat(4,dados_Frios.getPreco());
+            stmt.setDouble(3, dados_Frios.getQuantT());
+            stmt.setDouble(4,dados_Frios.getPreco());
                       
             stmt.executeUpdate();
 
