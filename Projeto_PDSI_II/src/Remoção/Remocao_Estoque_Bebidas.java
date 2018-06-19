@@ -2,29 +2,20 @@
 package Remoção;
 
 
-import Backgrounds.BG_Remocao;
+import Cadastros.*;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
-import Listagem.Listagem_Bebidas;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Bebida;
-import Getters_e_Setters.Lanche;
-import Getters_e_Setters.Registro;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
@@ -38,12 +29,10 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
     
     ArrayList<Registro> RegistroList = new ArrayList<Registro>();
     ArrayList<Bebida> BebidaList = new ArrayList<Bebida>();
-    
-    
+       
     ArrayList<String> Refrigerante = new ArrayList<>();
     ArrayList<String> Suco = new ArrayList<>();
     ArrayList<String> Milkshake = new ArrayList<>();
-
 
     JTextField Pega_Nome_Bebida = new JTextField();
     JTextField Pega_Quantidade_Bebida = new JTextField();
@@ -52,28 +41,24 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
     JTextField Pega_Nome_Fornecedor = new JTextField();
     JTextField Pega_Tipo_Bebida = new JTextField();
     JTextField volume = new JTextField();
-    
-    
+       
     JTextArea Mostra_Quantidade = new JTextArea();
     JTextArea Mostra_Modelo = new JTextArea();
     JTextArea Mostra_Marca = new JTextArea();
     JTextArea Mostra_Preco = new JTextArea();
     JTextArea Mostra_Nome = new JTextArea();
-    
-    
-  
+      
     DAO c = new DAO();
 
     int Id;
+    
     float total = 0;
     
     int indexLanhe = 0, indexBebida = 0, tipo = 0;
-
-    
-    
+   
     public Remocao_Estoque_Bebidas(int ID) throws SQLException {
         
-        Id=ID;
+        Id = ID;
         
         Pega_Dados(ID);
        
@@ -88,8 +73,6 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         Tipo_Bebida.setFont(fonte);
         add(Pega_Tipo_Bebida);
         add(Tipo_Bebida);
-        
-            
 
         JLabel Nome_Bebida = new JLabel("Bebida:");
         Pega_Nome_Bebida.setBounds(240, 225, 210, 30);
@@ -110,9 +93,7 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         Fornecedor.setFont(fonte);
         add(Pega_Nome_Fornecedor);
         add(Fornecedor);
-
-
-        
+       
         JLabel Volume = new JLabel("Volume:");
         volume.setBounds(715, 165, 100, 30);
         Volume.setBounds(650, 160, 130, 40);
@@ -122,8 +103,6 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         Volume.setFont(fonte);
         add(volume);
         add(Volume);
-        
-        
 
         JLabel Quantidade = new JLabel("Quantidade:");
         Pega_Quantidade_Bebida.setBounds(745, 225, 100, 30);
@@ -144,26 +123,19 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         Preco.setFont(fonte);
         add(Pega_Preco_Bebida);
         add(Preco);
-        
-        
-        
+       
         Cancelar.setBorder(new Borda_Redonda(7));
         Cancelar.setBounds(130, 430, 160, 40);
         Cancelar.addActionListener(this);
         Cancelar.setFont(fonte);
         add(Cancelar);
-        
-        
+                
         Remover.setBorder(new Borda_Redonda(7));
         Remover.setBounds(808, 430, 160, 40);
         Remover.addActionListener(this);
         Remover.setFont(fonte);
         add(Remover);
-
-        
        
-        
-        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_Remocao());
@@ -173,57 +145,60 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-
-    
+   
     }
+    
     
     public void actionPerformed(ActionEvent e) { 
         
         if (e.getSource() == Remover) {
           
-            int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+            int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
            
             if(botoes[opcao].equals("SIM")){
             
                 Remove_dados(Id);
                 
+                dispose();
                 new Listagem_Bebidas();
             
             }else{
                 
-            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+                JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+               
+                dispose();
                 new Listagem_Bebidas();
+            
             }
             
-        } if (e.getSource() == Cancelar) {
+        }else if (e.getSource() == Cancelar) {
 
             dispose();
             new Listagem_Bebidas();
-     } 
+            
+        } 
+        
     }
     
     
     public void Pega_Dados(int ID) throws SQLException{
 
         c.conexao();
-        
-         
-        c.executaSQL("select * from bebida where ID_bebida = " + ID);
+             
+        c.executaSQL("select * from estoque_bebidas where ID_bebida = " + ID);
    
         try {
 
             c.rs.first();
-                    
-                    dados_bebida.setBebida(c.rs.getString("Nome"));
-                    dados_bebida.setTipo(c.rs.getString("Tipo"));
-                    dados_bebida.setFornecedor((c.rs.getString("Fornecedor")));
-                    dados_bebida.setVolume (c.rs.getString("Volume"));
-                    dados_bebida.setQuantidade(c.rs.getInt("Quant"));
-                    dados_bebida.setPreco(c.rs.getFloat("Preco"));
-                    
-                    
-            } catch (SQLException ex) {
+              
+            dados_bebida.setTipo(c.rs.getString("Tipo"));
+            dados_bebida.setBebida(c.rs.getString("Nome"));          
+            dados_bebida.setFornecedor((c.rs.getString("Fornecedor")));
+            dados_bebida.setVolume (c.rs.getString("Volume"));
+            dados_bebida.setQuantidade(c.rs.getInt("Quantidade"));
+            dados_bebida.setPreco(c.rs.getFloat("Preco"));
+                                    
+        }catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
@@ -231,27 +206,30 @@ public class Remocao_Estoque_Bebidas extends JFrame implements ActionListener {
     
     }
     
+    
     public void Remove_dados(int Id){
         
-        String sql = "delete from bebida where ID_Bebida='" + Id + "'";
+        String sql = "delete from estoque_bebidas where ID_Bebida='" + Id + "'";
 
-            try {
+        try {
 
-                PreparedStatement stmt = c.conn.prepareStatement(sql);
+            PreparedStatement stmt = c.conn.prepareStatement(sql);
 
+            stmt.executeUpdate();
 
-                stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "DADO DELETADO!");
 
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
-            }
+        }catch (SQLException e1) {
+                
+            JOptionPane.showMessageDialog(null, e1);
+            
+        }
 
         dispose();
+        
     }
    
+    
     public static void main(String [] args){
         
        // new Remocao_Estoque_Bebidas();

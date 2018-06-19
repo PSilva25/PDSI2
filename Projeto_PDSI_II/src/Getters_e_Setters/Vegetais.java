@@ -4,9 +4,16 @@ public class Vegetais {
 
   private String Tipo;
     private String Fornecedor;
-    private float QuantTKG;
-    private float Precokg;
-    private float qunTPorC;
+    private float Quantidade;
+    private float Preco;
+    
+    
+    
+    public Vegetais() {
+        
+        
+    }
+  
 
     public String getTipo() {
         return Tipo;
@@ -24,34 +31,24 @@ public class Vegetais {
         this.Fornecedor = Fornecedor;
     }
 
-    public float getQuantTKG() {
-        return QuantTKG;
+    public float getQuantidade() {
+        return Quantidade;
     }
 
-    public void setQuantTKG(float QuantTKG) {
-        this.QuantTKG = QuantTKG;
+    public void setQuantidade(float Quantidade) {
+        this.Quantidade = Quantidade;
     }
 
-    public float getPrecokg() {
-        return Precokg;
+    public float getPreco() {
+        return Preco;
     }
 
-    public void setPrecokg(float Precokg) {
-        this.Precokg = Precokg;
+    public void setPreco(float Precokg) {
+        this.Preco = Precokg;
     }
 
-    public float getQunTPorC() {
-        return qunTPorC;
-    }
 
-    public void setQunTPorC(float qunTPorC) {
-        this.qunTPorC = qunTPorC;
-    }
-    
 
-public Vegetais() {
-        
-        
-    }
+
 
 }

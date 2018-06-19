@@ -1,33 +1,19 @@
 package Cadastros;
 
-import Backgrounds.BG_CadAlimentos_Bebida;
+import Cadastros.*;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Bebida;
-import projeto_pdsi_ii.Compra;
-import Getters_e_Setters.Lanche;
-import projeto_pdsi_ii.Login;
-import projeto_pdsi_ii.Principal;
-import Getters_e_Setters.Registro;
-import projeto_pdsi_ii.Status_Login;
 
 public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
     
@@ -35,8 +21,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
     JButton Adicionar = new JButton("Cadastrar Bebida");
     
     Bebida dados_bebida = new Bebida();
-    
-    
+        
     JTextField Pega_Nome_Bebida = new JTextField();
     JTextField Pega_Quantidade_Bebida = new JTextField();
     JTextField Pega_Preco_Bebida = new JTextField();
@@ -60,8 +45,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
     DAO c = new DAO();
 
     int indexLanhe = 0, indexBebida = 0, tipo = 0, tamanho = 0;
-
-    //Status_Login sl = new Status_Login();
+    
     
     public Cadastro_de_Bebidas() {
         
@@ -148,8 +132,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
         Adicionar.addActionListener(this);
         Adicionar.setFont(fonte);
         add(Adicionar);
-
-       
+      
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_CadAlimentos_Bebida());
         setBackground(Color.black);
@@ -158,11 +141,10 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-        
-        
-
+ 
     }
 
+    
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == Pequeno) tamanho = 1;
@@ -178,6 +160,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
             dados_bebida.setFornecedor(Pega_Nome_Fornecedor.getText());
             dados_bebida.setQuantidade(Integer.parseInt(Pega_Quantidade_Bebida.getText()));
             dados_bebida.setPreco(Float.parseFloat(Pega_Preco_Bebida.getText()));
+            
             if (tamanho == 1) dados_bebida.setVolume("300 ML");
             if (tamanho == 2) dados_bebida.setVolume("600 ML");
             if (tamanho == 3) dados_bebida.setVolume("1 L");
@@ -185,8 +168,7 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
                 
             try {
                     
-                ArmazenaDados();
-                
+                ArmazenaDados();               
                 
             } catch (SQLException ex) {
                 
@@ -201,17 +183,15 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
     
     }
  
-        
-       
+              
     public void ArmazenaDados() throws SQLException{
 
         c.conexao();
 
-        String sql = "insert into bebida (Tipo, Nome, Fornecedor, Volume, Quant, Preco) values (?,?,?,?,?,?);";
+        String sql = "insert into estoque_bebidas (Tipo, Nome, Fornecedor, Volume, Quantidade, Preco) values (?,?,?,?,?,?);";
 
         PreparedStatement stmt = c.conn.prepareStatement(sql);
-        
-        
+                
         try {
                 
             stmt.setString(1,dados_bebida.getTipo());
@@ -229,19 +209,19 @@ public class Cadastro_de_Bebidas extends JFrame implements ActionListener {
                        
        } 
 
-        Pega_Nome_Bebida.setText("");
-        Pega_Nome_Fornecedor.setText("");
-        Pega_Preco_Bebida.setText("");
-        Pega_Quantidade_Bebida.setText("");
-        volume.clearSelection();
-         
-        
-        stmt.execute();
+       Pega_Nome_Bebida.setText("");
+       Pega_Nome_Fornecedor.setText("");
+       Pega_Preco_Bebida.setText("");
+       Pega_Quantidade_Bebida.setText("");
+       volume.clearSelection();
+                
+       stmt.execute();
 
-        stmt.close();
+       stmt.close();
         
     }
 
+    
     public static void main(String[] args) {
 
         new Cadastro_de_Bebidas();

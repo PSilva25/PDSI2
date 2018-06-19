@@ -2,32 +2,24 @@
 package Remoção;
 
 
-import Backgrounds.BG_Remocao;
+import Cadastros.*;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
-import Listagem.Listagem_Vegetais;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Vegetais;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener {
-    
-    
-    int Id=0;
+       
+    int Id = 0;
     
     String[]botoes = {"SIM", "NAO"};
     
@@ -36,14 +28,11 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
     JButton Cancelar = new JButton("Cancelar");
     JButton Remover = new JButton("Remover");
  
-
     JTextField Pega_Nome_Fornecedor = new JTextField();
-    JTextField Pega_QuantsPocKG = new JTextField();
-    JTextField Pega_QuantidadeKG = new JTextField();
+    JTextField Pega_Quantidade = new JTextField();
     JTextField Pega_Preco = new JTextField();
     JTextField Pega_Vegetais = new JTextField();
-    
-    
+      
     DAO c = new DAO();
 
     
@@ -54,7 +43,6 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
         Pega_Dados(Id);
         
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
-
            
         JLabel Vegetais = new JLabel("Vegetais: ");
         Pega_Vegetais.setBounds(255, 185, 130, 30);
@@ -66,8 +54,6 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
         add(Pega_Vegetais);
         add(Vegetais);       
         
-        
-        
         JLabel Fornecedor = new JLabel("Fornecedor:");
         Pega_Nome_Fornecedor.setBounds(275, 265, 210, 30);
         Fornecedor.setBounds(180, 260, 130, 40);
@@ -77,59 +63,38 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
         Fornecedor.setFont(fonte);
         add(Pega_Nome_Fornecedor);
         add(Fornecedor);
-        
-        
-                
-                
-        JLabel Quantidade = new JLabel("Quantidade(KG):");
-        Pega_QuantidadeKG.setBounds(775, 165, 100, 30);
-        Quantidade.setBounds(650, 160, 130, 40);
-        Pega_QuantidadeKG.setFont(fonte);
-        Pega_QuantidadeKG.setEditable(false);
-        Pega_QuantidadeKG.setText(String.valueOf(dados_V.getQuantTKG()));
+               
+        JLabel Quantidade = new JLabel("Quantidade:");
+        Pega_Quantidade.setBounds(720, 195, 100, 30);
+        Quantidade.setBounds(720, 160, 130, 40);
+        Pega_Quantidade.setFont(fonte);
+        Pega_Quantidade.setEditable(false);
+        Pega_Quantidade.setText(String.valueOf(dados_V.getQuantidade()));
         Quantidade.setFont(fonte);
-        add(Pega_QuantidadeKG);
-        add(Quantidade);
-        
-       
-    
-        JLabel UKG = new JLabel("Quant. por Porção:");
-        Pega_QuantsPocKG.setBounds(790, 225, 100, 30);
-        UKG.setBounds(650, 220, 160, 40);
-        Pega_QuantsPocKG.setFont(fonte);
-        Pega_QuantsPocKG.setEditable(false);
-        Pega_QuantsPocKG.setText(String.valueOf(dados_V.getQunTPorC()));
-        UKG.setFont(fonte);
-        add(Pega_QuantsPocKG);
-        add(UKG);
+        add(Pega_Quantidade);
+        add(Quantidade);   
                 
-                
-                
-        JLabel UP = new JLabel("Preço por Kg:");
-        Pega_Preco.setBounds(755, 285, 100, 30);
-        UP.setBounds(650, 280, 160, 40);
+        JLabel UP = new JLabel("Preço de Compra:");
+        Pega_Preco.setBounds(720, 275, 100, 30);
+        UP.setBounds(720, 240, 140, 40);
         Pega_Preco.setFont(fonte);
         Pega_Preco.setEditable(false);
-        Pega_Preco.setText(String.valueOf(dados_V.getPrecokg()));
+        Pega_Preco.setText(String.valueOf(dados_V.getPreco()));
         UP.setFont(fonte);
         add(Pega_Preco);
         add(UP);
-        
-        
-        
+       
         Cancelar.setBorder(new Borda_Redonda(7));
         Cancelar.setBounds(130, 430, 160, 40);
         Cancelar.addActionListener(this);
         Cancelar.setFont(fonte);
         add(Cancelar);
-        
-        
+       
         Remover.setBorder(new Borda_Redonda(7));
         Remover.setBounds(808, 430, 160, 40);
         Remover.addActionListener(this);
         Remover.setFont(fonte);
         add(Remover);
-
   
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -140,45 +105,47 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-
-    
+   
     }
     
+   
     public void actionPerformed(ActionEvent e) { 
         
         if (e.getSource() == Remover) {
           
-         int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+            int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
            
             if(botoes[opcao].equals("SIM")){
             
                 Remove_dados(Id);
                 
+                dispose();
                 new Listagem_Vegetais();
             
             }else{
                 
-            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
-            
-            new Listagem_Vegetais();
+                JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+                
+                dispose();
+                new Listagem_Vegetais();
             
             }
-            
-            
-        } if (e.getSource() == Cancelar) {
+                       
+        }else if (e.getSource() == Cancelar) {
 
             dispose();
             new Listagem_Vegetais();
-     } 
+            
+        }
+        
     }
     
     
     public void Pega_Dados(int ID) throws SQLException{
 
-          c.conexao();
+        c.conexao();
                
-        c.executaSQL("select * from cad_vegetais where ID_vegetal = " + ID);
+        c.executaSQL("select * from estoque_vegetais where ID_alimento = " + ID);
    
         try {
 
@@ -186,44 +153,39 @@ public class Remocao_Alimentos_Vegetais extends JFrame implements ActionListener
                     
             dados_V.setTipo(c.rs.getString("Tipo"));
             dados_V.setFornecedor((c.rs.getString("Fornecedor")));
-            dados_V.setQuantTKG(c.rs.getFloat("Quantidade"));
-            dados_V.setPrecokg(c.rs.getFloat("preco_kg"));
-            dados_V.setQunTPorC(c.rs.getFloat("Quantidade_porcao"));
-            
-                                        
+            dados_V.setQuantidade(c.rs.getFloat("Quantidade"));
+            dados_V.setPreco(c.rs.getFloat("Preco_de_Compra"));
+                                                    
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }               
-      
-    
+         
     }
     
+   
     public void Remove_dados(int Id){
         
-        String sql = "delete from cad_vegetais where ID_vegetal='" + Id + "'";
+        String sql = "delete from estoque_vegetais where ID_alimento='" + Id + "'";
 
-            try {
+        try {
 
-                PreparedStatement stmt = c.conn.prepareStatement(sql);
+            PreparedStatement stmt = c.conn.prepareStatement(sql);
 
+            stmt.executeUpdate();
 
-                stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "DADO DELETADO!");
 
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
-            }
-
-        
+        } catch (SQLException e1) {
+             
+            JOptionPane.showMessageDialog(null, e1);
+            
+        }
+       
     }
    
-    
-    
-    
+      
     public static void main(String [] args){
         
         //new Remocao_Alimentos_Vegetais();

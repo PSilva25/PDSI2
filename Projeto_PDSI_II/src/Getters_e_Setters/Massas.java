@@ -5,6 +5,7 @@ public class Massas {
     private String Tipo;
     private String Fornecedor;
     private int Quantidade;
+    private float Preco;
     
     public Massas(){
     
@@ -35,14 +36,15 @@ public class Massas {
         this.Quantidade = Quantidade;
     }
 
-    public int getQuant_porcao() {
-        return quant_porcao;
+    public float getPreco() {
+        return Preco;
     }
 
-    public void setQuant_porcao(int quant_porcao) {
-        this.quant_porcao = quant_porcao;
+    public void setPreco(float Preco) {
+        this.Preco = Preco;
     }
-    private int quant_porcao;
+
+    
 
  
 }

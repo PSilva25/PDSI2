@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: pdsi_ii
 -- ------------------------------------------------------
--- Server version	5.7.19
+-- Server version	5.7.14
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,28 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `lanches`
+-- Table structure for table `caixa_fechamento`
 --
 
-DROP TABLE IF EXISTS `lanches`;
+DROP TABLE IF EXISTS `caixa_fechamento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `lanches` (
-  `ID_Pedido` int(11) NOT NULL AUTO_INCREMENT,
-  `Pedido` varchar(100) DEFAULT NULL,
-  `Preco` float DEFAULT NULL,
-  PRIMARY KEY (`ID_Pedido`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `caixa_fechamento` (
+  `ID_fechamento` int(11) NOT NULL AUTO_INCREMENT,
+  `Valor` float DEFAULT NULL,
+  `Valor_sangria` float DEFAULT NULL,
+  `valor_total` float DEFAULT NULL,
+  `data_fechamento` char(100) DEFAULT NULL,
+  `hora_fechamento` char(100) DEFAULT NULL,
+  PRIMARY KEY (`ID_fechamento`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `lanches`
+-- Dumping data for table `caixa_fechamento`
 --
 
-LOCK TABLES `lanches` WRITE;
-/*!40000 ALTER TABLE `lanches` DISABLE KEYS */;
-INSERT INTO `lanches` VALUES (1,'sanduiche',4.5),(2,'batata frita',4.5);
-/*!40000 ALTER TABLE `lanches` ENABLE KEYS */;
+LOCK TABLES `caixa_fechamento` WRITE;
+/*!40000 ALTER TABLE `caixa_fechamento` DISABLE KEYS */;
+INSERT INTO `caixa_fechamento` VALUES (1,94.5,50,44.5,'18/06/18','19:46:19');
+/*!40000 ALTER TABLE `caixa_fechamento` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-17 12:49:07
+-- Dump completed on 2018-06-18 20:05:31

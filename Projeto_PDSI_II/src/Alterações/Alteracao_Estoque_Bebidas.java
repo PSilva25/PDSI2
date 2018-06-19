@@ -2,34 +2,21 @@
 package Alterações;
 
 import Cadastros.*;
-import Backgrounds.BG_Alteracao;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
-import Listagem.Listagem_Bebidas;
 import Botoes.Borda_Redonda;
-import Cadastros.Cadastro_de_Bebidas;
-import java.awt.Color;
-import java.awt.Font;
+import Listagem.*;
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Bebida;
-import Getters_e_Setters.Lanche;
-import Getters_e_Setters.Registro;
-import Getters_e_Setters.Bebida;
-import Listagem.Listagem_Massas;
+
 
 public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener {
     
@@ -44,45 +31,38 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
     
     ArrayList<Registro> RegistroList = new ArrayList<Registro>();
     ArrayList<Lanche> LancheList = new ArrayList<Lanche>();
-    ArrayList<Bebida> BebidaList = new ArrayList<Bebida>();
-    
+    ArrayList<Bebida> BebidaList = new ArrayList<Bebida>();    
     
     ArrayList<String> Refrigerante = new ArrayList<>();
     ArrayList<String> Suco = new ArrayList<>();
     ArrayList<String> Milkshake = new ArrayList<>();
-
-
+    
     JTextField Pega_Nome_Bebida = new JTextField();
     JTextField Pega_Quantidade_Bebida = new JTextField();
     JTextField Pega_Preco_Bebida = new JTextField();
     JTextField Pega_Volume_Bebida = new JTextField();
     JTextField Pega_Nome_Fornecedor = new JTextField();
-
-    
+   
     JTextArea Mostra_Quantidade = new JTextArea();
     JTextArea Mostra_Modelo = new JTextArea();
     JTextArea Mostra_Marca = new JTextArea();
     JTextArea Mostra_Preco = new JTextArea();
-    JTextArea Mostra_Nome = new JTextArea();
-    
+    JTextArea Mostra_Nome = new JTextArea();   
     
     JComboBox<String> Pega_Tipo_Bebida = new JComboBox<>();
-    
-    
+       
     JRadioButton Pequeno = new JRadioButton("300 ML");
     JRadioButton Medio = new JRadioButton("600 ML");
     JRadioButton Grande1 = new JRadioButton("1 L");
     JRadioButton Grande2 = new JRadioButton("2 L");
     ButtonGroup volume = new ButtonGroup();
-    
-  
+     
     DAO c = new DAO();
 
     float total = 0;
     
     int indexLanhe = 0, indexBebida = 0, tipo = 0;
 
-    
     
     public Alteracao_Estoque_Bebidas(int x) throws SQLException {
         
@@ -99,8 +79,7 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
         add(Tipo_Bebida);
 
         Pega_Tipo_Bebida.addItem(dados_bebida.getTipo());
-        
-        
+                
         JLabel Nome_Bebida = new JLabel("Bebida:");
         Pega_Nome_Bebida.setBounds(240, 225, 210, 30);
         Nome_Bebida.setBounds(180, 220, 130, 40);
@@ -166,26 +145,19 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
         Preco.setFont(fonte);
         add(Pega_Preco_Bebida);
         add(Preco);
-        
-        
-        
+       
         Cancelar.setBorder(new Borda_Redonda(7));
         Cancelar.setBounds(130, 430, 160, 40);
         Cancelar.addActionListener(this);
         Cancelar.setFont(fonte);
         add(Cancelar);
-        
-        
+               
         Alterar.setBorder(new Borda_Redonda(7));
         Alterar.setBounds(808, 430, 160, 40);
         Alterar.addActionListener(this);
         Alterar.setFont(fonte);
         add(Alterar);
-
-        
        
-        
-        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_Alteracao());
@@ -194,13 +166,12 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
         setTitle("..:FastZooom:..");
         setSize(1100, 550);
         setLocationRelativeTo(null);
-        setVisible(true);
-
-    
+        setVisible(true);   
     
     }
     
-     public void actionPerformed(ActionEvent e) {
+     
+    public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == Pequeno) tamanho = 1;
         if (e.getSource() == Medio) tamanho = 2;
@@ -208,122 +179,119 @@ public class Alteracao_Estoque_Bebidas extends JFrame implements ActionListener 
         if (e.getSource() == Grande2) tamanho = 4;
      
      
-      if (e.getSource() == Alterar) {
-          
-            try {
-                      int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
-           
-            if(botoes[opcao].equals("SIM")){
-            
-                Atualiza(y);
-                   
-                new Listagem_Bebidas();
-                
-            
-                
-            }else{
-                
-            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
-            
-                 new Listagem_Bebidas();
-            
-            }
-             
-            } catch (SQLException ex) {
-                Logger.getLogger(Alteracao_Estoque_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
-      }
-      if (e.getSource() == Cancelar) {
+        if (e.getSource() == Alterar) {
 
-            dispose();
-            new Listagem_Bebidas();
-     }
-     }
+              try {
+                
+                  int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja alterar este produto", "Aviso!!!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+
+                if(botoes[opcao].equals("SIM")){
+
+                    Atualiza(y);
+                    dispose();
+                    new Listagem_Bebidas();
+
+                }else{
+
+                    JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+                    dispose();
+                    new Listagem_Bebidas();
+
+                }
+
+              } catch (SQLException ex) {
+                  
+                  Logger.getLogger(Alteracao_Estoque_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
+              
+              }
+
+        }else if (e.getSource() == Cancelar) {
+
+              dispose();
+              new Listagem_Bebidas();
+       
+        }
+       
+    }
      
-     public int ArmazenaDados(int ID) throws SQLException{
+    
+    public int ArmazenaDados(int ID) throws SQLException{
 
         c.conexao();
-        
-         
-        c.executaSQL("select * from bebida where ID_bebida = " + ID);
+                
+        c.executaSQL("select * from estoque_bebidas where ID_bebida = " + ID);
    
         try {
 
             c.rs.first();
-                    
-                    dados_bebida.setBebida(c.rs.getString("Nome"));
-                    dados_bebida.setTipo(c.rs.getString("Tipo"));
-                    dados_bebida.setFornecedor((c.rs.getString("Fornecedor")));
-                    dados_bebida.setVolume (c.rs.getString("Volume"));
-                    dados_bebida.setQuantidade(c.rs.getInt("Quant"));
-                    dados_bebida.setPreco(c.rs.getFloat("Preco"));
-                    
-                    
-            } catch (SQLException ex) {
+             
+            dados_bebida.setTipo(c.rs.getString("Tipo"));
+            dados_bebida.setBebida(c.rs.getString("Nome"));           
+            dados_bebida.setFornecedor((c.rs.getString("Fornecedor")));
+            dados_bebida.setVolume (c.rs.getString("Volume"));
+            dados_bebida.setQuantidade(c.rs.getInt("Quantidade"));
+            dados_bebida.setPreco(c.rs.getFloat("Preco"));
+                                     
+        } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }
-                Pega_Nome_Bebida.setText("");
-                Pega_Nome_Fornecedor.setText("");
-                 Pega_Preco_Bebida.setText("");
-                Pega_Quantidade_Bebida.setText("");
-                volume.clearSelection();
-         
-        
+                
+        Pega_Nome_Bebida.setText("");              
+        Pega_Nome_Fornecedor.setText("");                
+        Pega_Preco_Bebida.setText("");              
+        Pega_Quantidade_Bebida.setText("");               
+        volume.clearSelection();
+       
         return ID;
+        
     }
 
-      public void Atualiza(int x) throws SQLException{
+    
+    public void Atualiza(int x) throws SQLException{
 
         c.conexao();
         
-            if (tamanho == 1) dados_bebida.setVolume("300 ML");
-            if (tamanho == 2) dados_bebida.setVolume("600 ML");
-            if (tamanho == 3) dados_bebida.setVolume("1 L");
-            if (tamanho == 4) dados_bebida.setVolume("2 L");     
+        if (tamanho == 1) dados_bebida.setVolume("300 ML");
+        if (tamanho == 2) dados_bebida.setVolume("600 ML");
+        if (tamanho == 3) dados_bebida.setVolume("1 L");
+        if (tamanho == 4) dados_bebida.setVolume("2 L");     
             
-            dados_bebida.setTipo((String) Pega_Tipo_Bebida.getSelectedItem());
-            dados_bebida.setBebida(Pega_Nome_Bebida.getText());
-            dados_bebida.setFornecedor(Pega_Nome_Fornecedor.getText());
-            dados_bebida.setQuantidade(Integer.parseInt(Pega_Quantidade_Bebida.getText()));
-            dados_bebida.setPreco(Float.parseFloat(Pega_Preco_Bebida.getText()));
-          
-            
-            String sql = "UPDATE bebida SET Tipo=?,Nome=?,Fornecedor=?,Volume=?,Quant=?,Preco=? where ID_bebida = '" + x + "'";
+        dados_bebida.setTipo((String) Pega_Tipo_Bebida.getSelectedItem());
+        dados_bebida.setBebida(Pega_Nome_Bebida.getText());
+        dados_bebida.setFornecedor(Pega_Nome_Fornecedor.getText());
+        dados_bebida.setQuantidade(Integer.parseInt(Pega_Quantidade_Bebida.getText()));
+        dados_bebida.setPreco(Float.parseFloat(Pega_Preco_Bebida.getText()));
+                      
+        String sql = "UPDATE estoque_bebidas SET Tipo = ?, Nome = ?, Fornecedor = ?, Volume = ?, Quantidade = ?, Preco = ? where ID_bebida = '" + x + "'";
 
-            try {
+        try {
 
-                PreparedStatement stmt = c.conn.prepareStatement(sql);
+            PreparedStatement stmt = c.conn.prepareStatement(sql);
 
-                stmt.setString(1, dados_bebida.getTipo());
-                stmt.setString(2, dados_bebida.getBebida());
-                stmt.setString(3, dados_bebida.getFornecedor());
-                stmt.setString(4, dados_bebida.getVolume());
-                stmt.setInt(5,dados_bebida.getQuantidade());
-                stmt.setFloat(6, dados_bebida.getPreco());
-                   
-               
-                stmt.executeUpdate();
+            stmt.setString(1, dados_bebida.getTipo());
+            stmt.setString(2, dados_bebida.getBebida());
+            stmt.setString(3, dados_bebida.getFornecedor());
+            stmt.setString(4, dados_bebida.getVolume());
+            stmt.setInt(5,dados_bebida.getQuantidade());
+            stmt.setFloat(6, dados_bebida.getPreco());
+                                 
+            stmt.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "DADOS ALTERADOS!");
+            JOptionPane.showMessageDialog(null, "DADOS ALTERADOS!");
 
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
+        } catch (SQLException e1) {
+                
+            JOptionPane.showMessageDialog(null, e1);
 
-            }
-
-            dispose();
         }
+
+         dispose();
+        
+    }
          
-        
-        
-    
-    
-    
+  
     public static void main(String [] args){
         
         //new Alteracao_Estoque_Bebidas();

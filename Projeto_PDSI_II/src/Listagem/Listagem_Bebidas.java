@@ -21,8 +21,7 @@ import Remoção.Remocao_Estoque_Bebidas;
 import java.sql.PreparedStatement;
 
 public class Listagem_Bebidas extends JFrame implements ActionListener {
-    
-    
+       
     int Id=0;
    
     JTable tableLista;
@@ -39,36 +38,28 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
     TableRowSorter Filtro;
      
     DAO con = new DAO();
-    
-    
-    
+   
     
     public Listagem_Bebidas() {
-        
-        
+               
         Font fonte = new Font("SansSerif", Font.BOLD, 14);
         
         Container c = this.getContentPane();
         c.setLayout(null);
-       
-      
+            
         tabela();
-        
-        
+               
         tableLista = new JTable();
         tableLista.setBackground(Color.WHITE);
         tableLista.setModel(modelo);
         tableLista.setFillsViewportHeight(true);
-        
- 
                
         barra = new JScrollPane(tableLista);
         barra.setBounds(80, 100, 920, 300);
         barra.setBorder(new LineBorder(Color.BLACK));
         barra.add(new BG_CadAlimentos_Bebida());
         add(barra);   
-        
-        
+               
         JLabel Busca = new JLabel("Filtro:");
         Busca_tabela.setBounds(130, 45, 300, 30);
         Busca.setBounds(80, 40, 50, 40);
@@ -76,8 +67,7 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         Busca.setFont(fonte);
         add(Busca_tabela);
         add(Busca);
-        
-        
+                
         Busca_tabela.addKeyListener(new java.awt.event.KeyAdapter() {
             
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -85,40 +75,33 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
                 textBuscarKeyTyped(evt);
                 
             }
-        }
-        );
-        
-        
+            
+        });
+               
         Voltar.setBorder(new Borda_Redonda(7));
         Voltar.setBounds(80, 440, 100, 40);
         Voltar.addActionListener(this);
         Voltar.setFont(fonte);
         add(Voltar);
-        
-        
+                
         Adicionar.setBorder(new Borda_Redonda(7));
         Adicionar.setBounds(660, 440, 100, 40);
         Adicionar.addActionListener(this);
         Adicionar.setFont(fonte);
         add(Adicionar);
-        
-        
+                
         Alterar.setBorder(new Borda_Redonda(7));
         Alterar.setBounds(780, 440, 100, 40);
         Alterar.addActionListener(this);
         Alterar.setFont(fonte);
         add(Alterar);
-        
-        
+                
         Apagar.setBorder(new Borda_Redonda(7));
         Apagar.setBounds(900, 440, 100, 40);
         Apagar.addActionListener(this);
         Apagar.setFont(fonte);
         add(Apagar);
     
-        
-             
-
         setTitle("..:FastZooom:..");
         setSize(1100, 550);  
         getContentPane().setBackground(Color.decode("#009fe3"));
@@ -132,16 +115,20 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
      
     public void tabela(){
         
-        String[] colunas = {"ID", "Bebida", "Tipo", "Preco"};
+        String[] colunas = {"ID", "Tipo", "Nome", "Fornecedor", "Volume", "Quantidade", "Preço"};
 
         modelo = (DefaultTableModel) (new DefaultTableModel() {
 
             public boolean isCellEditable(int row, int coluna) {
+                
                 return false;
+            
             }
             
             public boolean isCellRedimentionable(int row, int coluna) {
+              
                 return true;
+            
             }
             
         });
@@ -151,7 +138,7 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
         
         con.conexao();
 
-        con.executaSQL("select * from bebida");
+        con.executaSQL("select * from estoque_bebidas");
    
         try {
 
@@ -159,14 +146,17 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
                    
             do{     
                 
-                String[] dados = new String[4];
+                String[] dados = new String[7];
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 7; i++) {
                     
                     dados[0] = String.valueOf(con.rs.getInt("ID_bebida"));
-                    dados[1] = con.rs.getString("Nome");
-                    dados[2] = con.rs.getString("Tipo");
-                    dados[3] = String.valueOf(con.rs.getString("Preco"));
+                    dados[1] = con.rs.getString("Tipo");
+                    dados[2] = con.rs.getString("Nome");
+                    dados[3] = con.rs.getString("Fornecedor");
+                    dados[4] = con.rs.getString("Volume");
+                    dados[5] = String.valueOf(con.rs.getInt("Quantidade"));  
+                    dados[6] = String.valueOf(con.rs.getFloat("Preco"));
 
                 }
                 
@@ -179,8 +169,7 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }
-        
-        
+              
     }
     
     
@@ -195,26 +184,35 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
             if (linhaSelecionada >= 0) {
                 
                 String ID = (String) tableLista.getValueAt(linhaSelecionada, 0);
-                
-               
+                              
                  Id = Integer.parseInt(ID);
                 
                  dispose();
                 
                 try {
+                   
                     new Alteracao_Estoque_Bebidas(Id);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Listagem_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            }else  if (e.getSource() == Adicionar) {
                 
-                new Cadastro_de_Bebidas();
+                } catch (SQLException ex) {
+                  
+                    Logger.getLogger(Listagem_Bebidas.class.getName()).log(Level.SEVERE, null, ex);
+                
+                }
+                
+            }else {
+                
+                JOptionPane.showMessageDialog(null, "É necessário selecionar uma linha.");
+            
+            }  
+            
+        }else  if (e.getSource() == Adicionar) {
+                
+            new Cadastro_de_Bebidas();
             
             
-            }else if (e.getSource() == Apagar) {
+        }else if (e.getSource() == Apagar) {
              
-             int linhaSelecionada = -1;
+            int linhaSelecionada = -1;
             
             linhaSelecionada = tableLista.getSelectedRow();
             
@@ -226,30 +224,29 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
                 
                 dispose();
                 
-            try {
-                
-                new Remocao_Estoque_Bebidas(Id);
-           
-            } catch (SQLException ex) {
-                Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            }
-           
-            
+                try {
 
+                    new Remocao_Estoque_Bebidas(Id);
+
+                } catch (SQLException ex) {
+
+                    Logger.getLogger(Listagem_Frios.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
             
-            } else  if (e.getSource() == Voltar) {
-               
-                dispose();
-           
-            
-            } else {
+            }else {
                 
                 JOptionPane.showMessageDialog(null, "É necessário selecionar uma linha.");
             
-            }    
-        }
+            }
+           
+        }else if (e.getSource() == Voltar) {
+               
+            dispose();
+           
+        }   
+        
+    }
           
      
     private void textBuscarKeyTyped(java.awt.event.KeyEvent evt) {                                   
@@ -264,6 +261,7 @@ public class Listagem_Bebidas extends JFrame implements ActionListener {
                 
                 filtro();
             }
+        
         });
         
         Filtro = new TableRowSorter(tableLista.getModel());

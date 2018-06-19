@@ -2,51 +2,40 @@
 package Remoção;
 
 
-import Backgrounds.BG_Remocao;
+import Cadastros.*;
+import Backgrounds.*;
 import Banco_de_Dados.DAO;
 import Botoes.Borda_Redonda;
-import Listagem.Listagem_Massas;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
+import Getters_e_Setters.*;
+import Listagem.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import Getters_e_Setters.Massas;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
-    
-    
-    int Id=0;
+      
+    int Id = 0;
     
     String[]botoes = {"SIM", "NAO"};
     
     Massas dados_M = new Massas();
-    
-    
+       
     JButton Cancelar = new JButton("Cancelar");
     JButton Remover = new JButton("Remover");
- 
 
     JTextField Pega_Nome_Fornecedor = new JTextField();
     JTextField Pega_Quantidade = new JTextField();
     JTextField Pega_Unidade_porcao = new JTextField();
     JTextField Pega_Massas = new JTextField();
-    
-    
+       
     DAO c = new DAO();
-
+   
     
     public Remocao_Alimentos_Massas(int ID) throws SQLException {
         
@@ -55,7 +44,6 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         Pega_Dados(Id);
         
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
-
            
         JLabel Massas = new JLabel("Massas: ");
         Pega_Massas.setBounds(245, 185, 130, 30);
@@ -66,9 +54,7 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         Massas.setFont(fonte);
         add(Pega_Massas);
         add(Massas);       
-      
-        
-        
+  
         JLabel Fornecedor = new JLabel("Fornecedor:");
         Pega_Nome_Fornecedor.setBounds(275, 265, 210, 30);
         Fornecedor.setBounds(180, 260, 130, 40);
@@ -78,9 +64,8 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         Fornecedor.setFont(fonte);
         add(Pega_Nome_Fornecedor);
         add(Fornecedor);
-                
-        
-        JLabel UP = new JLabel("Unidades:");
+                        
+        JLabel UP = new JLabel("Quantidade:");
         Pega_Quantidade.setBounds(735, 185, 100, 30);
         UP.setBounds(655, 180, 160, 40);
         Pega_Quantidade.setFont(fonte);
@@ -89,36 +74,29 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         UP.setFont(fonte);
         add(Pega_Quantidade);
         add(UP);
-        
-        
-        
-        
-        JLabel UP1 = new JLabel("Uni. por porção:");
+      
+        JLabel UP1 = new JLabel("Preço de Compra:");
         Pega_Unidade_porcao.setBounds(780, 265, 100, 30);
         UP1.setBounds(655, 260, 160, 40);
         Pega_Unidade_porcao.setFont(fonte);
         Pega_Unidade_porcao.setEditable(false);
-        Pega_Unidade_porcao.setText(String.valueOf(dados_M.getQuant_porcao()));
+        Pega_Unidade_porcao.setText(String.valueOf(dados_M.getPreco()));
         UP1.setFont(fonte);
         add(Pega_Unidade_porcao);
         add(UP1);
-        
-        
-        
+      
         Cancelar.setBorder(new Borda_Redonda(7));
         Cancelar.setBounds(130, 430, 160, 40);
         Cancelar.addActionListener(this);
         Cancelar.setFont(fonte);
         add(Cancelar);
-        
-        
+               
         Remover.setBorder(new Borda_Redonda(7));
         Remover.setBounds(808, 430, 160, 40);
         Remover.addActionListener(this);
         Remover.setFont(fonte);
         add(Remover);
-
-  
+ 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_Remocao());
@@ -128,44 +106,49 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         setSize(1100, 550);
         setLocationRelativeTo(null);
         setVisible(true);
-
     
     }
+    
+    
     public void actionPerformed(ActionEvent e) { 
         
-         String[]botoes = {"SIM", "NAO"};
+        String[]botoes = {"SIM", "NAO"};
+         
         if (e.getSource() == Remover) {
           
-           int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
+           int opcao = JOptionPane.showOptionDialog(null, "Realmente deseja excluir este produto", "Aviso!!!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]);
            
-            if(botoes[opcao].equals("SIM")){
+           if(botoes[opcao].equals("SIM")){
             
                 Remove_dados(Id);
                 
+                dispose();
                 new Listagem_Massas();
             
             }else{
                 
-            JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
-            
-            new Listagem_Massas();
+                JOptionPane.showMessageDialog(null, "OPERACAO CANCELADA");
+                
+                dispose();
+                new Listagem_Massas();
             
             }
              
-        } if (e.getSource() == Cancelar) {
+        }else if (e.getSource() == Cancelar) {
 
             dispose();
             new Listagem_Massas();
-     } 
+            
+        } 
+        
     }
     
     
     public void Pega_Dados(int ID) throws SQLException{
 
-         c.conexao();
+        c.conexao();
                
-        c.executaSQL("select * from cad_massas where ID_alimento = " + ID);
+        c.executaSQL("select * from estoque_massas where ID_alimento = " + ID);
    
         try {
 
@@ -174,41 +157,40 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
             dados_M.setTipo(c.rs.getString("Tipo"));
             dados_M.setFornecedor((c.rs.getString("Fornecedor")));
             dados_M.setQuantidade(c.rs.getInt("Quantidade"));
-            dados_M.setQuant_porcao(c.rs.getInt("Quantidade_porcao"));
-            
+            dados_M.setPreco(c.rs.getFloat("Preco_de_Compra"));           
                                         
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
 
         }               
-       
-    
+          
     }
+    
     
     public void Remove_dados(int Id){
         
-        String sql = "delete from cad_massas where ID_alimento='" + Id + "'";
+        String sql = "delete from estoque_massas where ID_alimento='" + Id + "'";
 
-            try {
+        try {
 
-                PreparedStatement stmt = c.conn.prepareStatement(sql);
+            PreparedStatement stmt = c.conn.prepareStatement(sql);
 
+            stmt.executeUpdate();
 
-                stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "DADO DELETADO!");
 
-                //mensagem de alerta informando que os dados foram deletados
-                JOptionPane.showMessageDialog(null, "DADO DELETADO!");
-
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, e1);
-            }
+        } catch (SQLException e1) {
+                
+            JOptionPane.showMessageDialog(null, e1);
+            
+        }
 
         dispose();
+        
     }
    
-    
-    
+ 
     public static void main(String [] args){
         
         //new Remocao_Alimentos_Massas();

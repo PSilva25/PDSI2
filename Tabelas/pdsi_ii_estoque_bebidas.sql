@@ -16,31 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `fechamento_caixa`
+-- Table structure for table `estoque_bebidas`
 --
 
-DROP TABLE IF EXISTS `fechamento_caixa`;
+DROP TABLE IF EXISTS `estoque_bebidas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fechamento_caixa` (
-  `ID_fechamento` int(11) NOT NULL AUTO_INCREMENT,
-  `Valor` float DEFAULT NULL,
-  `Valor_sangria` float DEFAULT NULL,
-  `valor_total` float DEFAULT NULL,
-  `data_fechamento` char(100) DEFAULT NULL,
-  `hora_fechamento` char(100) DEFAULT NULL,
-  PRIMARY KEY (`ID_fechamento`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+CREATE TABLE `estoque_bebidas` (
+  `ID_bebida` int(11) NOT NULL AUTO_INCREMENT,
+  `Tipo` varchar(100) DEFAULT NULL,
+  `Nome` varchar(100) DEFAULT NULL,
+  `Fornecedor` varchar(100) DEFAULT NULL,
+  `Volume` varchar(100) DEFAULT NULL,
+  `Quantidade` int(11) DEFAULT NULL,
+  `Preco` float DEFAULT NULL,
+  PRIMARY KEY (`ID_bebida`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `fechamento_caixa`
+-- Dumping data for table `estoque_bebidas`
 --
 
-LOCK TABLES `fechamento_caixa` WRITE;
-/*!40000 ALTER TABLE `fechamento_caixa` DISABLE KEYS */;
-INSERT INTO `fechamento_caixa` VALUES (1,1000,0,1000,'09/06/18','17:49:15');
-/*!40000 ALTER TABLE `fechamento_caixa` ENABLE KEYS */;
+LOCK TABLES `estoque_bebidas` WRITE;
+/*!40000 ALTER TABLE `estoque_bebidas` DISABLE KEYS */;
+INSERT INTO `estoque_bebidas` VALUES (1,'Refrigerante','Coca-Cola','Coca-Cola Inc.','300 ML',95,2.5),(2,'Refrigerante','Coca-Cola','Coca-Cola Inc.','600 ML',97,3.5),(3,'Refrigerante','Coca-Cola','Coca-Cola Inc.','1 L',100,5),(4,'Refrigerante','Coca-Cola','Coca-Cola Inc.','2 L',100,8),(5,'Refrigerante','Guarana','Coca-Cola Inc.','300 ML',100,2.5),(6,'Refrigerante','Guarana','Coca-Cola Inc.','600 ML',100,3.5),(7,'Refrigerante','Guarana','Coca-Cola Inc.','1 L',100,5);
+/*!40000 ALTER TABLE `estoque_bebidas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-12 22:14:22
+-- Dump completed on 2018-06-18 20:05:31

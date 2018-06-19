@@ -2,9 +2,7 @@ package projeto_pdsi_ii;
 
 
 import Backgrounds.BG_Venda;
-import Getters_e_Setters.Lanche;
-import Getters_e_Setters.Registro;
-import Getters_e_Setters.Bebida;
+import Getters_e_Setters.*;
 import Botoes.Borda_Redonda;
 import Banco_de_Dados.DAO;
 import java.awt.event.ActionListener;
@@ -43,66 +41,65 @@ import javax.swing.JRadioButton;
 
 public class Compra extends JFrame implements ActionListener {
 
+    String x = null, Q_volume = null;
+    
+    String nome_bebida = null, nome_lanche = null;
+    
+    float total_compra = 0,total_lanche=0,total_bebida=0 ;
+    
+    int frios = 0, massas = 0, indexLanche = 0, indexBebida = 0, tipo = 0;  
+    
     JButton Registrar_Compra = new JButton("Registrar Pedido");
     JButton Cancelar_Compra = new JButton("Cancelar Pedido");
     JButton Adicionar = new JButton("Adicionar Pedido");
-
-    
+    JButton Voltar = new JButton("Voltar");
+   
     ArrayList<Registro> RegistroList = new ArrayList<Registro>();
     ArrayList<Lanche> LancheList = new ArrayList<Lanche>();
     ArrayList<Bebida> BebidaList = new ArrayList<Bebida>();
-    
-    
+        
     ArrayList<String> Refrigerante = new ArrayList<>();
     ArrayList<String> Suco = new ArrayList<>();
     ArrayList<String> Milkshake = new ArrayList<>();
-
-
+    
     JTextField Pega_Quantidade = new JTextField();
     JTextField Pega_Quantidade2 = new JTextField();
     JTextField Mostra_Total = new JTextField();
     JTextField Pega_Nome = new JTextField();
-
     
     JTextArea Mostra_Quantidade = new JTextArea();
     JTextArea Mostra_Modelo = new JTextArea();
     JTextArea Mostra_Marca = new JTextArea();
     JTextArea Mostra_Preco = new JTextArea();
     JTextArea Mostra_Nome = new JTextArea();
-
-    
+   
     JComboBox<String> Pega_Tipo = new JComboBox<>();
     JComboBox<String> Pega_BebidaP = new JComboBox<>();
     JComboBox<String> Pega_BebidaR = new JComboBox<>();
     JComboBox<String> Pega_BebidaS = new JComboBox<>();
     JComboBox<String> Pega_BebidaM = new JComboBox<>();
-
-    
+   
     JRadioButton aRadioButton = new JRadioButton("Refrigerantes");
     JRadioButton bRadioButton = new JRadioButton("Sucos");
     JRadioButton cRadioButton = new JRadioButton("milkshake"); 
     ButtonGroup group = new ButtonGroup();
-    
-    
-      
+        
     JRadioButton Pequeno = new JRadioButton("300 ML");
     JRadioButton Medio = new JRadioButton("600 ML");
     JRadioButton Grande1 = new JRadioButton("1 L");
     JRadioButton Grande2 = new JRadioButton("2 L");
     ButtonGroup volume = new ButtonGroup();
-
+    
     
     DAO c = new DAO();
 
-    float total = 0;
-    
-    int indexLanhe = 0, indexBebida = 0, tipo = 0;
-
-    
-    
+   
     public Compra() {
         
+        String x = null, Q_volume = null;
         
+        int frios = 0, massas = 0;
+       
         Font fonte = new Font("SansSerif", Font.BOLD, 14);
 
         aRadioButton.setBackground(Color.decode("#009fe3"));
@@ -110,8 +107,7 @@ public class Compra extends JFrame implements ActionListener {
         aRadioButton.addActionListener(this);
         aRadioButton.setFont(fonte);
         add(aRadioButton);
-        
-       
+           
         bRadioButton.setBackground(Color.decode("#009fe3"));
         bRadioButton.setBounds(730, 90, 80, 30);
         bRadioButton.addActionListener(this);
@@ -123,13 +119,11 @@ public class Compra extends JFrame implements ActionListener {
         cRadioButton.addActionListener(this);
         cRadioButton.setFont(fonte);
         add(cRadioButton);
-        
-        
+                
         group.add(aRadioButton);
         group.add(bRadioButton);
         group.add(cRadioButton);
-        
-             
+                    
         JLabel Tipo = new JLabel("Pedido: ");
         Pega_Tipo.setBounds(290, 125, 130, 30);
         Tipo.setBounds(230, 120, 130, 40);
@@ -137,8 +131,7 @@ public class Compra extends JFrame implements ActionListener {
         Tipo.setFont(fonte);
         add(Pega_Tipo);
         add(Tipo);       
-
-                
+               
         ArrayList<String> tipo = new ArrayList<>();
            
         pegalanche(tipo);
@@ -153,7 +146,6 @@ public class Compra extends JFrame implements ActionListener {
 
         }
         
-
         JLabel Bebida = new JLabel("Bebida: ");
         Pega_BebidaP.setBounds(680, 135, 130, 30);
         Bebida.setBounds(620, 130, 130, 40);
@@ -163,8 +155,7 @@ public class Compra extends JFrame implements ActionListener {
         add(Pega_BebidaR);
         add(Pega_BebidaS);
         add(Pega_BebidaM);
-        add(Pega_BebidaP);
-            
+        add(Pega_BebidaP);            
  
         JLabel Quantidade = new JLabel("Quantidade:");
         Pega_Quantidade.setBounds(317, 175, 70, 30);
@@ -173,8 +164,7 @@ public class Compra extends JFrame implements ActionListener {
         Quantidade.setFont(fonte);
         add(Pega_Quantidade);
         add(Quantidade);
-        
-        
+                
         JLabel Quantidade2 = new JLabel("Quantidade:");
         Pega_Quantidade2.setBounds(707, 180, 70, 30);
         Quantidade2.setBounds(620, 175, 130, 40);
@@ -211,8 +201,7 @@ public class Compra extends JFrame implements ActionListener {
         volume.add(Medio);
         volume.add(Grande1);
         volume.add(Grande2);
-        
-        
+                
         JLabel N = new JLabel("PEDIDOS");
         Mostra_Nome.setBounds(150, 420, 230, 160);
         N.setBounds(150, 380, 130, 40);
@@ -221,8 +210,7 @@ public class Compra extends JFrame implements ActionListener {
         N.setFont(fonte);
         add(Mostra_Nome);
         add(N);
-        
-        
+               
         JLabel P = new JLabel("PREÇO");
         Mostra_Preco.setBounds(380, 420, 230, 160);
         P.setBounds(380, 380, 130, 40);
@@ -231,8 +219,7 @@ public class Compra extends JFrame implements ActionListener {
         P.setFont(fonte);
         add(Mostra_Preco);
         add(P);
-        
-        
+               
         JLabel Q = new JLabel("QUANTIDADE");
         Mostra_Quantidade.setBounds(610, 420, 230, 160);
         Q.setBounds(610, 380, 130, 40);
@@ -241,8 +228,7 @@ public class Compra extends JFrame implements ActionListener {
         Q.setFont(fonte);
         add(Mostra_Quantidade);
         add(Q);
-        
-        
+               
         JLabel T = new JLabel("TOTAL:");
         Mostra_Total.setBounds(870, 420, 70, 30);
         T.setBounds(880, 380, 130, 40);
@@ -251,30 +237,31 @@ public class Compra extends JFrame implements ActionListener {
         T.setFont(fonte);
         add(Mostra_Total);
         add(T);
-        
-        
+                
         Adicionar.setBorder(new Borda_Redonda(7));
         Adicionar.setBounds(808, 290, 160, 40);
         Adicionar.addActionListener(this);
         Adicionar.setFont(fonte);
         add(Adicionar);
-
         
+        Voltar.setBorder(new Borda_Redonda(7));
+        Voltar.setBounds(115, 660, 200, 40);
+        Voltar.addActionListener(this);
+        Voltar.setFont(fonte);
+        add(Voltar);
+       
         Registrar_Compra.setBorder(new Borda_Redonda(7));
         Registrar_Compra.setBounds(500, 660, 200, 40);
         Registrar_Compra.addActionListener(this);
         Registrar_Compra.setFont(fonte);
         add(Registrar_Compra);
-
-        
+       
         Cancelar_Compra.setBorder(new Borda_Redonda(7));
         Cancelar_Compra.setBounds(770, 660, 200, 40);
         Cancelar_Compra.addActionListener(this);
         Cancelar_Compra.setFont(fonte);
         add(Cancelar_Compra);
-
-        
-        
+       
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(new BG_Venda());
@@ -317,6 +304,10 @@ public class Compra extends JFrame implements ActionListener {
     
     public void actionPerformed(ActionEvent e) {
 
+        if (e.getSource() == Pequeno) Q_volume = "300 ML";
+        if (e.getSource() == Medio) Q_volume = "600 ML";
+        if (e.getSource() == Grande1) Q_volume = "1 L";
+        if (e.getSource() == Grande2) Q_volume = "2 L";
         
         if(e.getSource() == aRadioButton){
             
@@ -332,7 +323,7 @@ public class Compra extends JFrame implements ActionListener {
             if (Refrigerante.isEmpty() == true) {
                 
                 Posiciona_BebidaR();
-                bebidasshabas(1);
+                Pega_do_Banco(1);
  
                 Pega_BebidaR.addItem("");
 
@@ -344,10 +335,7 @@ public class Compra extends JFrame implements ActionListener {
 
             }
         
-        }
-                
-        
-        if (e.getSource() == bRadioButton) {
+        }else if (e.getSource() == bRadioButton) {
             
             tipo = 2;    
             
@@ -361,7 +349,7 @@ public class Compra extends JFrame implements ActionListener {
             if (Suco.isEmpty() == true) {
                 
                 Posiciona_BebidaS();
-                bebidasshabas(2);
+                Pega_do_Banco(2);
 
                 Pega_BebidaS.addItem("");
 
@@ -373,10 +361,7 @@ public class Compra extends JFrame implements ActionListener {
                 
             }
             
-        } 
-        
-        
-        if (e.getSource()==cRadioButton) {
+        } else if (e.getSource()==cRadioButton) {
             
             tipo = 3;
             
@@ -390,7 +375,7 @@ public class Compra extends JFrame implements ActionListener {
             if (Milkshake.isEmpty() == true) {
                 
                 Posiciona_BebidaM();
-                bebidasshabas(3);
+                Pega_do_Banco(3);
                 
                 Pega_BebidaM.addItem("");
                 
@@ -402,82 +387,69 @@ public class Compra extends JFrame implements ActionListener {
             
             }
             
-        }
-        
-               
-        if (e.getSource() == Adicionar) {
+        }else if (e.getSource() == Adicionar) {
+                       
+            Lanche lanche = new Lanche();
+            Bebida bebida = new Bebida();          
 
-            if (Pega_Tipo.getSelectedItem().equals("") || Pega_Quantidade.getText().equals("")) {
-
-                JOptionPane.showMessageDialog(null, "Existe um ou mais campos vazios!");
-
-            } else {
-                
-            
-                Lanche lanche = new Lanche();
-                Bebida bebida = new Bebida();
-                
-                
+            if (Pega_Tipo.getSelectedItem().equals("") == false){
+                              
                 lanche.setPedido((String) Pega_Tipo.getSelectedItem());
                 lanche.setQuantidade(Integer.parseInt(Pega_Quantidade.getText()));
- 
+            
+                LancheList.add(lanche);
+                
+            }
+                
+            
+            if(tipo != 0){
                 
                 if(tipo == 1) bebida.setBebida((String) Pega_BebidaR.getSelectedItem());
                 if(tipo == 2) bebida.setBebida((String) Pega_BebidaS.getSelectedItem());
                 if(tipo == 3) bebida.setBebida((String) Pega_BebidaM.getSelectedItem()); 
+
+                bebida.setVolume(Q_volume);
                 bebida.setQuantidade(Integer.parseInt(Pega_Quantidade2.getText()));
-                
-                
-                LancheList.add(lanche);
+
                 BebidaList.add(bebida);
-                
-                
-                pegaDadosPedido();
-                pegaDadosBebida();
-                MostraPedidos();
-
-                
-                Pega_BebidaP.setVisible(true);
-                Pega_BebidaR.setVisible(false);
-                Pega_BebidaS.setVisible(false);
-                Pega_BebidaM.setVisible(false);
-
-                group.clearSelection();
-
-                ArrayList<String> tipo = new ArrayList<>();
-
-                pegalanche(tipo);
-                Pega_Tipo.removeAllItems();
-                Pega_Tipo.addItem("");
-
-                for (int i = 0; i < tipo.size(); i++) {
-
-                    Pega_Tipo.addItem(tipo.get(i));
-
-                }      
-
+                    
             }
- 
+                              
+            if(LancheList.isEmpty() == false) pegaDadosPedido(); 
+            if(BebidaList.isEmpty() == false) pegaDadosBebida(); 
+                
+            MostraPedidos();
+
+            Pega_BebidaP.setVisible(true);
+            Pega_BebidaR.setVisible(false);
+            Pega_BebidaS.setVisible(false);
+            Pega_BebidaM.setVisible(false);
+
+            group.clearSelection();
+            volume.clearSelection();
+
+            ArrayList<String> tipo = new ArrayList<>();
+
+            pegalanche(tipo);
+            Pega_Tipo.removeAllItems();
+            Pega_Tipo.addItem("");
+
+            for (int i = 0; i < tipo.size(); i++) {
+
+                Pega_Tipo.addItem(tipo.get(i));
+
+            }    
+                   
         }else if (e.getSource() == Registrar_Compra) {
             
-            new Pagamento(RegistroList);
-            
-            //try {
-                
-            //    Registra();
-            
-            //} catch (SQLException ex) {
-            
-            //   Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
-            
-            //}
-            
+            new Decrementa_Estoque(LancheList, BebidaList, RegistroList);
+                                           
             RegistroList.clear();
             BebidaList.clear();
             LancheList.clear();
             indexBebida = 0;
-            indexLanhe = 0;
-            total = 0;
+            indexLanche = 0;
+            total_compra = 0;
             
             Mostra_Quantidade.setText(""); ;
             Mostra_Modelo.setText("");             
@@ -492,6 +464,7 @@ public class Compra extends JFrame implements ActionListener {
             Pega_BebidaM.setVisible(false);
                 
             group.clearSelection();
+            volume.clearSelection();
                
             ArrayList<String> tipo = new ArrayList<>();
            
@@ -505,7 +478,7 @@ public class Compra extends JFrame implements ActionListener {
 
             }       
 
-        } else if (e.getSource() == Cancelar_Compra) {
+        }else if (e.getSource() == Cancelar_Compra) {
 
             Mostra_Quantidade.setText(""); ;
             Mostra_Modelo.setText("");
@@ -520,6 +493,7 @@ public class Compra extends JFrame implements ActionListener {
             Pega_BebidaM.setVisible(false);
                 
             group.clearSelection();
+            volume.clearSelection();
                
             ArrayList<String> tipo = new ArrayList<>();
            
@@ -532,7 +506,11 @@ public class Compra extends JFrame implements ActionListener {
                 Pega_Tipo.addItem(tipo.get(i));
 
             }
-                          
+            
+        }else if(e.getSource() == Voltar){
+            
+            dispose();
+            
         }
 
     }
@@ -543,124 +521,99 @@ public class Compra extends JFrame implements ActionListener {
 
         c.conexao();
 
-        c.executaSQL("select * from lanches where Pedido = '" + LancheList.get(indexLanhe).getPedido() + "'");
+        c.executaSQL("select * from cardapio where Nome = '" + LancheList.get(indexLanche).getPedido() + "'");
         
-        Registro reg = new Registro();
-                
-
-                try {
-
-                    c.rs.first();
-
-                    String nome = c.rs.getString("Pedido");
-                    float preco = Float.parseFloat(c.rs.getString("Preco"));
-                    int qnt = LancheList.get(indexLanhe).getQuantidade();
-
-                    reg.setQUANTIDADE(qnt);
-                    reg.setNOME(nome);
-                    reg.setPRECO(preco);
+        try {
                     
+            Registro reg = new Registro();
 
-                    total = total + preco * qnt;
+            c.rs.first();
+                                          
+            reg.setNOME(c.rs.getString("Nome"));
+            reg.setPRECO(Float.parseFloat(c.rs.getString("Preco")));
+            reg.setQUANTIDADE(LancheList.get(indexLanche).getQuantidade());                                     
+
+            total_lanche = total_lanche + (reg.getPRECO() * reg.getQUANTIDADE());
+                                                          
+            RegistroList.add(reg);
                     
-                    RegistroList.add(reg);
-                    
-                    indexLanhe++;
+            indexLanche++;
 
-                    
+        }catch (SQLException ex) {
 
-                } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto1!");
 
-                    JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
-
-                }
+        }
                 
-                
-                Mostra_Total.setText(String.valueOf(total));
-                Pega_Tipo.addItem("");
-                Pega_Quantidade.setText("");
-                Mostra_Preco.setText("");
-                Mostra_Nome.setText("");
-                Mostra_Quantidade.setText("");
-
-                
-        
+        Pega_Tipo.addItem("");
+        Pega_Quantidade.setText("");
+        Mostra_Preco.setText("");
+        Mostra_Nome.setText("");
+        Mostra_Quantidade.setText("");
+    
     }
     
     
     public void pegaDadosBebida() {
                
         c.conexao();
-
-        c.executaSQL("select * from bebidas where Bebida = '" +BebidaList.get(indexBebida).getBebida()+ "'");
         
-        Registro reg = new Registro();
-                
-
-                try {
-
-                    c.rs.first();
+        c.executaSQL("select * from estoque_bebidas where Nome = '" +BebidaList.get(indexBebida).getBebida()+ "'");
+        
+            try {
                     
-                    String nome = c.rs.getString("Bebida");                    
-                    float preco = Float.parseFloat(c.rs.getString("Preco"));
-                    int qnt = BebidaList.get(indexBebida).getQuantidade();
+                Registro reg = new Registro();
+                    
+                c.rs.first();
+                    
+                reg.setNOME(c.rs.getString("Nome"));                    
+                reg.setPRECO(Float.parseFloat(c.rs.getString("Preco")));
+                reg.setQUANTIDADE(BebidaList.get(indexBebida).getQuantidade());
   
-                    reg.setQUANTIDADE(qnt);
-                    reg.setNOME(nome);
-                    reg.setPRECO(preco);
+                total_bebida = total_bebida + (reg.getPRECO() * reg.getQUANTIDADE());
                     
-
-                    total = total + preco * qnt;
+                RegistroList.add(reg);
                     
-                    RegistroList.add(reg);
-                    
-                    indexBebida++;
-                    
+                indexBebida++;
+                   
+            }catch (SQLException ex) {
 
-                } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto2!");
 
-                    JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
-
-                }
+            }
                 
+            total_compra = total_bebida + total_lanche; 
                 
-                Mostra_Total.setText(String.valueOf(total));               
-                Pega_Quantidade2.setText("");               
-                Mostra_Preco.setText("");
-                Mostra_Nome.setText("");
-                Mostra_Quantidade.setText("");
-
-                
-        
+            Mostra_Total.setText(String.valueOf(total_compra));
+               
+            Pega_Quantidade2.setText("");               
+            Mostra_Preco.setText("");
+            Mostra_Nome.setText("");
+            Mostra_Quantidade.setText("");    
         
     }
     
     
     public void MostraPedidos(){
-        
-        
-        
+            
         for (Registro r : RegistroList) {
 
-                    Mostra_Quantidade.append("|    " + r.getQUANTIDADE() + "\n");
-                    Mostra_Preco.append("|   " + r.getPRECO() + "\n");
-                    Mostra_Nome.append("    " + r.getNOME() + "\n");
+            Mostra_Quantidade.append("|    " + r.getQUANTIDADE() + "\n");
+            Mostra_Preco.append("|   " + r.getPRECO() + "\n");
+            Mostra_Nome.append("    " + r.getNOME() + "\n");
 
-                }
-          
-        
+        }
+       
     }
     
     
-    public void bebidasshabas(int bebida) {
+    public void Pega_do_Banco(int bebida) {
 
-        int cont = 0;
-        
         c.conexao();
 
-        if(bebida == 1) c.executaSQL("select * from bebida where Tipo = 'refrigerante'");
-        if(bebida == 2) c.executaSQL("select * from bebidas where Tipo = 'suco'");
-        if(bebida == 3) c.executaSQL("select * from bebidas where Tipo = 'milkshake'");
+        if(bebida == 1) c.executaSQL("select * from estoque_bebidas where Tipo = 'Refrigerante'");
+        if(bebida == 2) c.executaSQL("select * from estoque_bebidas where Tipo = 'Suco'");
+        if(bebida == 3) c.executaSQL("select * from estoque_bebidas where Tipo = 'Milkshake'");
 
         try {
 
@@ -673,17 +626,12 @@ public class Compra extends JFrame implements ActionListener {
                 if(bebida == 1) Refrigerante.add(nome);
                 if(bebida == 2) Suco.add(nome);
                 if(bebida == 3) Milkshake.add(nome);
-                
-                
-                System.out.println("asd   =========  "+nome);
-
-                cont++;
-            
+                                        
             }while(c.rs.next());
 
         } catch (SQLException ex) {
 
-            JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
+            JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto3!");
 
         }
         
@@ -696,7 +644,7 @@ public class Compra extends JFrame implements ActionListener {
         
         c.conexao();
 
-        c.executaSQL("select * from menu");
+        c.executaSQL("select * from cardapio");
 
         try {
 
@@ -714,13 +662,13 @@ public class Compra extends JFrame implements ActionListener {
 
         } catch (SQLException ex) {
 
-            JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto!");
+            JOptionPane.showMessageDialog(null, "Não foi possivel encontar este produto4!");
 
         }
         
     }
     
-    
+ 
     public static void main(String[] args) {
 
         new Compra();
