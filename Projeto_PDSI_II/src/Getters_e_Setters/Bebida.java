@@ -1,45 +1,19 @@
+
 package Getters_e_Setters;
 
 
 public class Bebida {
     
-    private int id;
     private String Bebida;
     private String Tipo;
     private String Fornecedor;
     private String Volume;
-    private double Preco;
+    private float Preco;
     private int Quantidade;
 
     public Bebida() {
         
-    }
-
-    public Bebida(String skol, String cerveja, String dipai, String lt, double d, int i) {
-        this.Bebida = skol;
-        this.Tipo = cerveja;
-        this.Fornecedor = dipai;
-        this.Volume = lt;
-        this.Preco = d;
-        this.Quantidade = i;
-    }
-
-    public Bebida(int id, String skol, String cerveja, String dipai, String lt, double d, int i) {
-        this.id = id;
-        this.Bebida = skol;
-        this.Tipo = cerveja;
-        this.Fornecedor = dipai;
-        this.Volume = lt;
-        this.Preco = d;
-        this.Quantidade = i;
-    }
-    
-    public int getID(){
-        return id;
-    }
-    
-    public void setID(int id){
-        this.id = id;
+        
     }
 
     public String getBebida() {
@@ -74,7 +48,7 @@ public class Bebida {
         this.Volume = Volume;
     }
 
-    public double getPreco() {
+    public float getPreco() {
         return Preco;
     }
 

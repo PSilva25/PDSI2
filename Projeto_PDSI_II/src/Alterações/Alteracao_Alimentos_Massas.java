@@ -47,7 +47,7 @@ public class Alteracao_Alimentos_Massas extends JFrame implements ActionListener
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
            
         JLabel Massas = new JLabel("Massas: ");
-        Pega_Massas.setBounds(245, 185, 130, 30);
+        Pega_Massas.setBounds(245, 185, 160, 30);
         Massas.setBounds(180, 180, 130, 40);
         Pega_Massas.setFont(fonte);
         Pega_Massas.setText(dados_M.getTipo());

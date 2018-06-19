@@ -39,6 +39,7 @@ public class fechar_caixa extends JFrame implements ActionListener{
            
     Fechamento_Caixa dado_F = new Fechamento_Caixa();
    
+    JButton Calcular = new JButton("Calcular");
     JButton Cancelar = new JButton("Cancelar");
     JButton Fechar = new JButton("Fechar Caixa");
  
@@ -47,6 +48,8 @@ public class fechar_caixa extends JFrame implements ActionListener{
     JTextField Pega_Valor = new JTextField();
   
     DAO c = new DAO();
+    
+    float venda_dia;
 
     
     public fechar_caixa() {
@@ -56,28 +59,35 @@ public class fechar_caixa extends JFrame implements ActionListener{
         Font fonte = new Font("SansSerif", Font.BOLD, 17);
            
         JLabel valor = new JLabel("Vendas Dia: ");
-        Pega_Vendas.setBounds(230, 155, 130, 30);
-        valor.setBounds(135, 150, 130, 40);
+        Pega_Vendas.setBounds(170, 70, 130, 30);
+        valor.setBounds(70, 63, 130, 40);
         Pega_Vendas.setFont(fonte);
         valor.setFont(fonte);
         add(Pega_Vendas);
         add(valor);       
    
         JLabel Sangria = new JLabel("Sangria:");
-        Pega_Sangria.setBounds(205, 225, 210, 30);
-        Sangria.setBounds(135, 220, 130, 40);
+        Pega_Sangria.setBounds(140, 135, 150, 30);
+        Sangria.setBounds(70, 130, 130, 40);
         Pega_Sangria.setFont(fonte);
         Sangria.setFont(fonte);
         add(Pega_Sangria);
         add(Sangria);
             
         JLabel Vendas = new JLabel("Total:");
-        Pega_Valor.setBounds(205, 295, 210, 30);
-        Vendas.setBounds(135, 290, 130, 40);
+        Pega_Valor.setBounds(120, 295, 100, 30);
+        Vendas.setBounds(70, 290, 70, 40);
+        Pega_Valor.setEditable(false);
         Pega_Valor.setFont(fonte);
         Vendas.setFont(fonte);
         add(Pega_Valor);
         add(Vendas);
+        
+        Calcular.setBorder(new Borda_Redonda(7));
+        Calcular.setBounds(350, 180, 160, 40);
+        Calcular.addActionListener(this);
+        Calcular.setFont(fonte);
+        add(Calcular);
                   
         Cancelar.setBorder(new Borda_Redonda(7));
         Cancelar.setBounds(35, 430, 160, 40);
@@ -104,7 +114,8 @@ public class fechar_caixa extends JFrame implements ActionListener{
     
     }
     
-     public void preenche(){
+     
+    public void preenche(){
     
         dado_F.setValor(Float.parseFloat(Pega_Vendas.getText()));
         dado_F.setSangria(Float.parseFloat(Pega_Sangria.getText()));
@@ -117,19 +128,48 @@ public class fechar_caixa extends JFrame implements ActionListener{
         
         if(e.getSource() == Fechar){
             
-            try {
+            if(Pega_Sangria.getText().equals("") == false || Pega_Valor.getText().equals("") == false){
+                               
+                try {
             
-                preenche();
-                ArmazenaDados();
-                dispose();
+                    preenche();
+                    ArmazenaDados();
+                    dispose();
             
-            } catch (SQLException ex) {
+                } catch (SQLException ex) {
+
+                    Logger.getLogger(abrir_caixa.class.getName()).log(Level.SEVERE, null, ex);
+
+                }              
+                
+            } else{
+                
+                JOptionPane.showMessageDialog(null, "Freencha os campos antes de finalizar!");
+                
+            } 
             
-                Logger.getLogger(abrir_caixa.class.getName()).log(Level.SEVERE, null, ex);
+            sai_login();
             
+        }else if(e.getSource() == Calcular){
+            
+            if(Pega_Sangria.getText().equals("") == false){
+
+                float calculo = venda_dia - Float.parseFloat(Pega_Sangria.getText());
+
+                Pega_Valor.setText(String.valueOf(calculo));
+              
+            }else{
+                
+                JOptionPane.showMessageDialog(null, "Incira a sangria para efetuar o cálculo.");
+                
             }
             
+        }else if(e.getSource() == Cancelar){
+            
+            dispose();
+            
         }
+        
     }
        
     
@@ -138,10 +178,10 @@ public class fechar_caixa extends JFrame implements ActionListener{
         c.conexao();
          
         
-         Date agora = new Date();
+        Date agora = new Date();
         DateFormat mostradata;
         mostradata = DateFormat.getDateInstance(DateFormat.SHORT);
-       String x = mostradata.format(agora);
+        String x = mostradata.format(agora);
         
         
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -214,10 +254,33 @@ public class fechar_caixa extends JFrame implements ActionListener{
 
         }
        
-        String x = String.valueOf(vendas);
+        venda_dia = vendas;
             
-        Pega_Vendas.setText(x);
+        Pega_Vendas.setText(String.valueOf(venda_dia));
         Pega_Vendas.setEditable(false);
+        
+    }
+    
+    
+    public void sai_login(){
+        
+        String situacao = "desconectado";
+        
+        String sql = "UPDATE login SET Situcao=?  WHERE ID_Usuario = 1";
+                  
+            try {
+
+                PreparedStatement stmt = c.conn.prepareStatement(sql);
+
+                stmt.setString(1,situacao);
+
+                stmt.executeUpdate();
+             
+            }catch (SQLException e1) {
+
+                JOptionPane.showMessageDialog(null, e1);
+
+            }
         
     }
     

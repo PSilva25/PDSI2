@@ -46,7 +46,7 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         Font fonte = new Font("SansSerif", Font.BOLD, 15);
            
         JLabel Massas = new JLabel("Massas: ");
-        Pega_Massas.setBounds(245, 185, 130, 30);
+        Pega_Massas.setBounds(245, 185, 160, 30);
         Massas.setBounds(180, 180, 130, 40);
         Pega_Massas.setFont(fonte);
         Pega_Massas.setEditable(false);
@@ -66,7 +66,7 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         add(Fornecedor);
                         
         JLabel UP = new JLabel("Quantidade:");
-        Pega_Quantidade.setBounds(735, 185, 100, 30);
+        Pega_Quantidade.setBounds(745, 185, 100, 30);
         UP.setBounds(655, 180, 160, 40);
         Pega_Quantidade.setFont(fonte);
         Pega_Quantidade.setEditable(false);
@@ -76,7 +76,7 @@ public class Remocao_Alimentos_Massas extends JFrame implements ActionListener {
         add(UP);
       
         JLabel UP1 = new JLabel("Preço de Compra:");
-        Pega_Unidade_porcao.setBounds(780, 265, 100, 30);
+        Pega_Unidade_porcao.setBounds(785, 265, 100, 30);
         UP1.setBounds(655, 260, 160, 40);
         Pega_Unidade_porcao.setFont(fonte);
         Pega_Unidade_porcao.setEditable(false);
