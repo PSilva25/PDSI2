@@ -140,8 +140,8 @@ public class Cadastro_Alimentos_Frios extends JFrame implements ActionListener {
                 
             stmt.setString(1,dados_AL.getTipo());
             stmt.setString(2,dados_AL.getFornecedor());
-            stmt.setFloat(3,dados_AL.getQuantT());
-            stmt.setFloat(4,dados_AL.getPreco());
+            stmt.setDouble(3,dados_AL.getQuantT());
+            stmt.setDouble(4,dados_AL.getPreco());
            
         
         } catch (SQLException ex) {
