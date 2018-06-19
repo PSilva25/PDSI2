@@ -27,7 +27,7 @@ CREATE TABLE `cardapio` (
   `Nome` char(80) DEFAULT NULL,
   `Preco` float DEFAULT NULL,
   PRIMARY KEY (`ID_Lanche`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `cardapio` (
 
 LOCK TABLES `cardapio` WRITE;
 /*!40000 ALTER TABLE `cardapio` DISABLE KEYS */;
-INSERT INTO `cardapio` VALUES (2,'X-Burguer',8);
+INSERT INTO `cardapio` VALUES (2,'X-Burguer',8),(3,'X-Sanduiche',7),(4,'a',1),(5,'A',8);
 /*!40000 ALTER TABLE `cardapio` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-18 20:05:31
+-- Dump completed on 2018-06-19  9:02:10

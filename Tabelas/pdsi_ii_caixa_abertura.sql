@@ -29,7 +29,7 @@ CREATE TABLE `caixa_abertura` (
   `Data_abertura` char(100) DEFAULT NULL,
   `Hora_Abertura` char(100) DEFAULT NULL,
   PRIMARY KEY (`ID_Abertura`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,6 @@ CREATE TABLE `caixa_abertura` (
 
 LOCK TABLES `caixa_abertura` WRITE;
 /*!40000 ALTER TABLE `caixa_abertura` DISABLE KEYS */;
-INSERT INTO `caixa_abertura` VALUES (1,'Troco',100,'18/06/18','19:43:47');
 /*!40000 ALTER TABLE `caixa_abertura` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-18 20:05:31
+-- Dump completed on 2018-06-19  9:02:11
